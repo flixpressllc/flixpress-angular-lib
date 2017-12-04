@@ -17,22 +17,6 @@
 	</ng-template>
 </app-sortable-container>
 
-{{ players | json}}
-
-<div>
-	<h3>LocalStorage Test</h3>
-	<div>
-		Set Local Storage Value: <input type="text" [(ngModel)]="localStorageValue">
-		<button (click)="commitLocalStorageValue()">Commit</button>
-		<br/>
-		The local storage value is {{localStorageValue}}
-		<button (click)="clearLocalStorageValue()">Clear</button>
-	</div>
-</div>
-<div class="animate">
-	<button (click)="animate()">Click Me</button>
-	<p [@scaleAnimation]="animateState">Look at me</p>
-</div>
 <app-image-upload-button
   (uploadComplete)="log($event)"
 ></app-image-upload-button>
@@ -40,16 +24,3 @@
 <app-file-upload-button
   (uploadComplete)="log($event)"
 ></app-file-upload-button>
-
-<div>
-	<app-deletable-tag *ngFor="let tag of deletableTags"  [tag]="tag">
-	</app-deletable-tag>
-</div>
-
-<app-auto-complete (onSearchType)="onSearchTypeHandler($event)"
-	[searchResults]="autoCompleteSearchResults"
-	(onSelect)="onSelectHandler($event)">
-</app-auto-complete>
-
-<app-toggle-button [isHorizontal]="true" [includeAll]="true" [items]="toggleButtonItems" (onItemSelected)="onToggleButtonItemSelected($event)">
-</app-toggle-button>
