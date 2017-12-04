@@ -3,9 +3,22 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
+import { AnimatedEllipsisComponent } from './components/animated-ellipsis/animated-ellipsis.component';
+import { FileUploadButtonComponent } from './components/file-upload-button/file-upload-button.component';
+import { ImageCropperComponent } from './components/image-cropper/image-cropper.component';
+import { ImageUploadButtonComponent } from './components/image-upload-button/image-upload-button.component';
+import { ModalComponent } from './components/modal/modal.component';
+import { SortableContainerComponent } from './components/sortable-container/sortable-container.component';
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AnimatedEllipsisComponent,
+    FileUploadButtonComponent,
+    ImageCropperComponent,
+    ImageUploadButtonComponent,
+    ModalComponent,
+    SortableContainerComponent
   ],
   imports: [
     BrowserModule
