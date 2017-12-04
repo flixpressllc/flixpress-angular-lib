@@ -26,6 +26,9 @@ import { CollapsiblePanelComponent } from './components/collapsible-panel/collap
     SortableContainerComponent,
     CollapsiblePanelComponent
   ],
+  entryComponents: [
+    ImageCropperComponent
+  ],
   imports: [
     BrowserModule,
     HttpClientModule
