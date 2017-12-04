@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { UploadFileService } from './services/upload-file.service';
 import { ApiRootsService } from './services/api-roots.service';
 
+import { DynamicHostDirective } from './directives/dynamic-host.directive';
+
 import { AnimatedEllipsisComponent } from './components/animated-ellipsis/animated-ellipsis.component';
 import { FileUploadButtonComponent } from './components/file-upload-button/file-upload-button.component';
 import { ImageCropperComponent } from './components/image-cropper/image-cropper.component';
@@ -24,7 +26,8 @@ import { CollapsiblePanelComponent } from './components/collapsible-panel/collap
     ImageUploadButtonComponent,
     ModalComponent,
     SortableContainerComponent,
-    CollapsiblePanelComponent
+    CollapsiblePanelComponent,
+    DynamicHostDirective
   ],
   entryComponents: [
     ImageCropperComponent
