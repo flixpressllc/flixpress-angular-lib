@@ -1,0 +1,6 @@
+<section>
+	<header class="panel-name" (click)="toggleExpanded()">{{title}}{{expandedIndicator}}</header>
+	<div class="panel-content" *ngIf="isExpanded">
+		<ng-content></ng-content>
+	</div>
+</section>

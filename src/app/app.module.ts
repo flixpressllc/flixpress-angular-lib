@@ -13,6 +13,7 @@ import { ImageCropperComponent } from './components/image-cropper/image-cropper.
 import { ImageUploadButtonComponent } from './components/image-upload-button/image-upload-button.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { SortableContainerComponent } from './components/sortable-container/sortable-container.component';
+import { CollapsiblePanelComponent } from './components/collapsible-panel/collapsible-panel.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { SortableContainerComponent } from './components/sortable-container/sort
     ImageCropperComponent,
     ImageUploadButtonComponent,
     ModalComponent,
-    SortableContainerComponent
+    SortableContainerComponent,
+    CollapsiblePanelComponent
   ],
   imports: [
     BrowserModule,

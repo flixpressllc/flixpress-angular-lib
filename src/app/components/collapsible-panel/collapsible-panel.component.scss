@@ -1,0 +1,19 @@
+@import '../../../scss/base';
+
+.panel-name {
+	background-color: $main-color;
+	color: white;
+	margin-bottom: 0px;
+	padding: 10px;
+	cursor: pointer;
+}
+
+:host[ng-reflect-force-open] {
+	.panel-name {
+		cursor: default;
+	}
+}
+
+.panel-content{
+	padding: 10px;
+}
