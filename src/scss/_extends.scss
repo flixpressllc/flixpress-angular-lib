@@ -1,0 +1,42 @@
+﻿%search-with-toggles {
+  display: flex;
+}
+
+.display-inline-block-center{
+
+    display:inline-block;
+}
+
+%centered-tiles {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  padding: 12px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+%tile {
+  width: 250px;
+  margin-right: 25px;
+  margin-bottom: 25px;
+  background-color: tint($main-color, 60%);
+  display:inline-block;
+  box-shadow:5px 5px 15px #aaaaaa;
+}
+
+%tile-header {
+  box-sizing: border-box;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  padding: $general-padding;
+  background-color: $main-color;
+  color: white;
+  font-size: 100%;
+  font-weight: bold;
+}
+
+%tile-image {
+  width: 300px;
+  cursor: pointer;
+}

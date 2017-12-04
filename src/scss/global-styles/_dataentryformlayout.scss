@@ -1,0 +1,60 @@
+form{
+	margin: auto;
+	padding: 12px;
+
+	h2{
+		margin-bottom: 30px;
+	}
+
+	div{
+
+		@include clearfix();
+
+		margin-bottom: $general-padding;
+
+	}
+	label{
+		text-align: right;
+		font-weight: bold;
+		float: left;
+		width: 20%;
+		padding-right: 10px;
+
+		+ input[type="text"],
+		+ input[type="password"],
+		+ textarea,
+		+ select{
+			float: left;
+			width: 80%;
+		}
+
+	}
+}
+
+$fieldset-left-pad: $general-padding * 5;
+
+fieldset {
+	padding-top: $general-padding;
+	padding-right: $general-padding;
+	padding-left: $fieldset-left-pad;
+	border-width: 0px;
+	margin: 20px auto;
+	background-color: rgba(tint($main-color, 60%), 0.4);
+	border-left: 1px solid tint($main-color, 60);
+
+}
+
+legend {
+	padding: 0.5em;
+	margin: 0 -#{$general-padding};
+	margin-left: -#{$fieldset-left-pad + 1};
+	margin-bottom: $general-padding;
+	max-width: none;
+	width: calc(100% + #{$general-padding + $fieldset-left-pad + 1});
+	position: relative;
+	font-weight: bold;
+	background-color: tint($main-color, 70);
+	border-bottom: 1px solid tint($main-color, 60);
+	border-left: 1px solid tint($main-color, 60);
+
+}

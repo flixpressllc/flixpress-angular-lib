@@ -1,5 +1,5 @@
 import { Component, OnInit, ContentChild, TemplateRef, Input, Output, EventEmitter } from '@angular/core';
-import { ArraysService } from '../../services/arrays.service';
+import * as arraysService from '../../utils/arrayHelpers';
 
 @Component({
   selector: 'app-sortable-container',
@@ -18,7 +18,7 @@ export class SortableContainerComponent implements OnInit {
   @Output() onSortChange = new EventEmitter<EmittedEvent>();
   @Output() onDeleteItem = new EventEmitter<EmittedEvent>();
 
-  constructor(private arraysService: ArraysService) {}
+  constructor() {}
 
   ngOnInit() {
   	if (!this.items) {
@@ -38,27 +38,27 @@ export class SortableContainerComponent implements OnInit {
 
   sortItemUp(item:any) {
     let newArray = this.getSafeToEditData();
-    this.arraysService.moveUp(item, newArray);
+    arraysService.moveUp(item, newArray);
     this.onSortChange.emit({type: 'ItemSort', data: {newArray} })
   }
 
   sortItemDown(item: any) {
     let newArray = this.getSafeToEditData();
-    this.arraysService.moveDown(item, newArray);
+    arraysService.moveDown(item, newArray);
     this.onSortChange.emit({type: 'ItemSort', data: {newArray} })
   }
 
   canMoveUp(item: any) {
-    return this.allowSort && this.arraysService.canMoveUp(item, this.items);
+    return this.allowSort && arraysService.canMoveUp(item, this.items);
   }
 
   canMoveDown(item: any) {
-    return this.allowSort && this.arraysService.canMoveDown(item, this.items);
+    return this.allowSort && arraysService.canMoveDown(item, this.items);
   }
 
   deleteItem(item: any) {
     let newArray = this.getSafeToEditData();
-    this.arraysService.delete(item, newArray);
+    arraysService.remove(item, newArray);
     this.onDeleteItem.emit({type: 'ItemDelete', data: {newArray} })
   }
 }

@@ -1,0 +1,41 @@
+$element-height: 30px;
+
+
+input[type="text"], input[type="password"], input[type="numeric"], textarea, select {
+	border: solid 1px shade($main-color, 30%);
+	height: $element-height;
+	padding-left: $general-padding;
+
+	&.ng-invalid.ng-touched{
+		border-color: shade($danger-color, 30%);
+		background-color: tint($danger-color, (95%));
+	}
+
+	&:focus{
+		background-color: tint($main-color, 95%);
+	}
+}
+
+button{
+	border: none;
+	color: white;
+	font-weight: bold;
+	background-color: $main-color;
+	padding: $general-padding;
+	margin-bottom: $general-padding;
+	cursor: pointer;
+
+	height: var(--elementHeight);
+
+	&:disabled{
+		background-color: desaturate(tint($main-color, 70%), 20%);
+	}
+
+	&:hover{
+		background-color: tint($main-color, 50%);
+	}
+
+	&:active{
+		background-color: tint($main-color, 70%);
+	}
+}

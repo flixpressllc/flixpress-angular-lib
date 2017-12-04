@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 import { UploadFileService, FileUploadData } from '../../services/upload-file.service';
 
-export type BeforeUploadHandler = (file: File) => Promise<File>;
+export type BeforeUploadHandler = (file: File) => Promise<File | false>;
 
 @Component({
   selector: 'app-file-upload-button',

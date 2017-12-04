@@ -1,0 +1,14 @@
+﻿@import './variables';
+@import './utils';
+@import './extends';
+
+
+.display-inline-block-center {
+  display: inline-block;
+}
+
+
+.max800pix {
+	max-width:1024px;
+	margin:0 auto;
+}

@@ -1,0 +1,28 @@
+table{
+
+	thead{
+		tr{
+			background-color: $main-color;
+			font-weight: bold;
+			color: white;
+		}
+
+		th{
+			padding: $general-padding;
+		}
+	}
+
+	tbody{
+		tr{
+			&:nth-child(2n){
+				background-color: tint($main-color, 90%);
+			}
+		}
+
+		td{
+			padding: $general-padding;
+
+		}
+	}
+
+}

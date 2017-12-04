@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Output, EventEmitter, Input, ComponentFac
 import { ImageCropperComponent } from '../image-cropper/image-cropper.component';
 import { BeforeUploadHandler } from '../file-upload-button/file-upload-button.component';
 import { blobToDataURL } from '../../lib/fileManipulation';
-import { DynamicHostDirective } from '../../dynamic-host.directive';
+import { DynamicHostDirective } from '../../directives/dynamic-host.directive';
 
 @Component({
   selector: 'app-image-upload-button',
@@ -48,24 +48,37 @@ export class ImageUploadButtonComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private handleBeforeUpload (file: File): Promise<File> {
+  private handleBeforeUpload (file: File): Promise<File | false> {
     if (!this.cropImage) { return Promise.resolve(file); }
-    return new Promise(resolve => {
-      this.createLocalImageFromFile(file).then(image => {
+    return this.handleCropFile(file);
+  }
 
-        this.viewContainerRef.clear();
-        const cropperInstance = <ImageCropperComponent> this.viewContainerRef.createComponent(this.cropperFactory).instance;
+  async handleCropFile(file: File): Promise<File | false> {
+    const image = await this.createLocalImageFromFile(file)
+    const cropperInstance = this.getCropperInstance();
+    const promise = this.waitForCropperInstance(cropperInstance);
 
-        cropperInstance.imageSrc = image.src;
-        cropperInstance.croppingComplete.subscribe(event => {
-          if (event.type === 'crop') {
-            resolve(event.data.croppedFile);
-          } else {
-            resolve(false);
-          }
-        });
+    cropperInstance.imageSrc = image.src;
+
+    return await promise;
+  }
+
+  waitForCropperInstance(cropperInstance: ImageCropperComponent): Promise<File | false> {
+    return new Promise<File | false>(resolve => {
+      cropperInstance.croppingComplete.subscribe(event => {
+        if (event.type === 'crop') {
+          resolve(event.data.croppedFile as File);
+        } else {
+          resolve(false);
+        }
       });
-    });
+    })
+  }
+
+  getCropperInstance(): ImageCropperComponent {
+    this.viewContainerRef.clear();
+    const cropperInstance = <ImageCropperComponent> this.viewContainerRef.createComponent(this.cropperFactory).instance;
+    return cropperInstance;
   }
 
   private handleUploadComplete(event: EmittedEvent): void {

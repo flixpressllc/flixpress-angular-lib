@@ -1,0 +1,8 @@
+@for $i from 1 through 6 {
+  h#{7 - $i} {
+    fontsize: $i * 1.4em;
+    font-weight: bold;
+    color: tint($main-color, 30%);
+    margin-bottom: $general-padding;
+  }
+}

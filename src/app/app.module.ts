@@ -1,7 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
+
+import { UploadFileService } from './services/upload-file.service';
+import { ApiRootsService } from './services/api-roots.service';
 
 import { AnimatedEllipsisComponent } from './components/animated-ellipsis/animated-ellipsis.component';
 import { FileUploadButtonComponent } from './components/file-upload-button/file-upload-button.component';
@@ -21,9 +25,13 @@ import { SortableContainerComponent } from './components/sortable-container/sort
     SortableContainerComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    UploadFileService,
+    ApiRootsService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
