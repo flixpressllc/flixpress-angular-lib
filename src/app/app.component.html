@@ -1,20 +1,55 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{title}}!
-  </h1>
-  <img width="300" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<p>
+  visualtests works!
+  <span class="fa fa-home"></span> This should've been the home icon.
+</p>
+<app-collapsible-panel [title]="'Sample Title'">
+	<div>
+	Lorem ipsum...
+	</div>
+</app-collapsible-panel>
 
+<app-sortable-container [items]="players" [directEdit]="true">
+	<ng-template let-player>
+    <app-collapsible-panel [title]="player.name">
+			Position: {{player.position}}<br/>
+			Number: {{player.number}}<br/>
+		</app-collapsible-panel>
+	</ng-template>
+</app-sortable-container>
+
+{{ players | json}}
+
+<div>
+	<h3>LocalStorage Test</h3>
+	<div>
+		Set Local Storage Value: <input type="text" [(ngModel)]="localStorageValue">
+		<button (click)="commitLocalStorageValue()">Commit</button>
+		<br/>
+		The local storage value is {{localStorageValue}}
+		<button (click)="clearLocalStorageValue()">Clear</button>
+	</div>
+</div>
+<div class="animate">
+	<button (click)="animate()">Click Me</button>
+	<p [@scaleAnimation]="animateState">Look at me</p>
+</div>
+<app-image-upload-button
+  (uploadComplete)="log($event)"
+></app-image-upload-button>
+
+<app-file-upload-button
+  (uploadComplete)="log($event)"
+></app-file-upload-button>
+
+<div>
+	<app-deletable-tag *ngFor="let tag of deletableTags"  [tag]="tag">
+	</app-deletable-tag>
+</div>
+
+<app-auto-complete (onSearchType)="onSearchTypeHandler($event)"
+	[searchResults]="autoCompleteSearchResults"
+	(onSelect)="onSelectHandler($event)">
+</app-auto-complete>
+
+<app-toggle-button [isHorizontal]="true" [includeAll]="true" [items]="toggleButtonItems" (onItemSelected)="onToggleButtonItemSelected($event)">
+</app-toggle-button>
