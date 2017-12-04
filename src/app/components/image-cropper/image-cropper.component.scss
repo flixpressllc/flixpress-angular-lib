@@ -1,0 +1,24 @@
+.image-cropper-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  overflow: auto;
+  z-index: 1000;
+  padding: 12px;
+
+  img {
+    max-width: 100%;
+  }
+}
+
+.cropper-implementation-container {
+  max-width: 100%;
+  max-height: 90%;
+}
+
+body {
+  background-color: green;
+}

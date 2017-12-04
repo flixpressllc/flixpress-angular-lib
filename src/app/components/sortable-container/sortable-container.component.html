@@ -1,0 +1,20 @@
+<ng-template *ngIf="items.length > 0"
+	ngFor [ngForOf]="items" let-item>
+	<div class="actions">
+		<span class="fa fa-chevron-down" (click)="sortItemDown(item)" *ngIf="canMoveDown(item)"></span>
+		<span class="fa fa-chevron-up" (click)="sortItemUp(item)" *ngIf="canMoveUp(item)"></span>
+		<span class="delete fa fa-close" *ngIf="allowDelete" (click)="deleteItem(item)"></span>
+	</div>
+	<div class="sortable-item">
+		<ng-template ngFor [ngForOf]="[item]" [ngForTemplate]="firstNgTemplatePassedIn"></ng-template>
+	</div>
+</ng-template>
+
+<div *ngIf="items.length == 0">
+	<ng-container *ngIf="emptyMessage">
+		{{emptyMessage}}
+	</ng-container>
+	<ng-container *ngIf="!emptyMessage">
+		(No {{pluralName}} at this time)
+	</ng-container>
+</div>

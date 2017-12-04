@@ -1,0 +1,8 @@
+<div *ngIf="visible" class="image-cropper-modal">
+  <div class="cropper-implementation-container">
+    <img #image [src]="imageSrc"/>
+  </div>
+
+  <button type="button" (click)="handleCancel()">cancel</button>
+  <button type="button" (click)="handleCrop()">crop</button>
+</div>

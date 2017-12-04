@@ -1,0 +1,6 @@
+<button type="button" (click)="onClick($event)">
+  <ng-container *ngIf="!awaitingResponse">{{getButtonText()}}</ng-container>
+  <ng-container *ngIf="awaitingResponse">
+    Uploading<app-animated-ellipsis></app-animated-ellipsis>
+  </ng-container>
+</button>

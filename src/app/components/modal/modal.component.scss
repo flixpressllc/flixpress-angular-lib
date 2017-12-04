@@ -1,0 +1,75 @@
+@import '../../../scss/base';
+
+.modal-overlay {
+  display: flex;
+  align-content: center;
+  align-items: center;
+
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: grey; /* Fallback color */
+  background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+  z-index: 1;
+}
+
+.modal {
+  background: white;
+  padding: 0;
+  border: none;
+  max-width: 100%;
+  max-width: calc(100% - 2em);
+  max-height: 100%;
+  max-height: calc(100% - 2em);
+  box-shadow:
+    0 0 6px rgba(0,0,0,0.225),
+    0 0 12px rgba(0,0,0,0.225),
+    0 0 24px rgba(0,0,0,0.25),
+    0 0 48px rgba(0,0,0,0.25),
+    0 0 96px rgba(0,0,0,0.275),
+    0 0 192px rgba(0,0,0,0.275);
+
+  &.full-screen {
+    width: calc(100% - 2em);
+    height: calc(100% - 2em);
+  }
+
+  > section {
+    background-color: white;
+    max-height: calc(100% - 3em);
+    overflow: auto; /* Enable scroll if needed */
+  }
+
+  > header {
+    width: 100%;
+    @include clearfix();
+    background-color: $main-color;
+    margin-bottom: 0px;
+
+    > div:first-child{
+      float: left;
+      padding: $general-padding;
+      color: white;
+    }
+
+    > div:last-child{
+      float: right;
+      & > span {
+        color: white;
+        font-size: 110%;
+        padding: 5px;
+        background-color: tint($main-color, 50%);
+        box-sizing: border-box;
+        cursor: pointer;
+      }
+
+      .close {
+        background-color: $danger-color;
+      }
+    }
+
+  }
+
+}

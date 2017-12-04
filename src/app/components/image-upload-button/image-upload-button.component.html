@@ -1,0 +1,7 @@
+<app-file-upload-button
+  accept="image/jpeg,image/png"
+  [button-text]="getButtonText()"
+  [beforeUpload]="getHandleBeforeUploadFunction()"
+  (uploadComplete)="handleUploadComplete($event)"
+></app-file-upload-button>
+<ng-template app-dynamic-host></ng-template>

@@ -1,0 +1,31 @@
+@import '../../../scss/base';
+
+:host {
+	@include clearfix;
+}
+
+.sortable-item {
+	padding: 0;
+	margin: 0;
+
+	> *:first-child{
+		min-height: 2em;
+	}
+}
+
+.actions{
+	float: right;
+
+	& > span {
+		color: white;
+		font-size: 110%;
+		padding: 5px;
+		background-color: tint($main-color, 50%);
+		box-sizing: border-box;
+		cursor: pointer;
+	}
+
+	.delete {
+		background-color: $danger-color;
+	}
+}

@@ -1,0 +1,17 @@
+<div class="modal-overlay"
+	*ngIf="isOpen"
+	[@fadeInAnimation]="isOpen"
+	[@fadeOutAnimation]="!isOpen">
+
+	<dialog open class="modal" [ngClass]="classes">
+		<header>
+			<div>{{title}}</div>
+			<div>
+				<span class="close fa fa-close" (click)="close()"> </span>
+			</div>
+		</header>
+		<section>
+			<ng-content></ng-content>
+		</section>
+	</dialog>
+<div>
