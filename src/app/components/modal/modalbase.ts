@@ -78,7 +78,7 @@ export abstract class ModalSelectBase<T> extends ModalBase {
 	}
 
 	ngOnInit(){
-		this.items = new Array<T>();
+		this.items = [];
 	}
 
 	protected select(selectedItem:T){
