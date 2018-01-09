@@ -1,40 +1,41 @@
 export const EXTENSIONS_BY_MIME_TYPE = {
   'image/jpeg': 'jpg',
-  'image/png': 'png'
-}
+  'image/png': 'png',
+};
 
 export const DATA_URL_MIME_MATCHER = /:(.*?);/;
 
-//**dataURL to blob**
 export function dataURLtoBlob(dataurl) {
     const {bytes, type} = dataURLtoByteArrayAndMimeType(dataurl);
     return new Blob([bytes], {type}); // broken in IE < 10
 }
 
 function dataURLtoByteArrayAndMimeType (dataurl) {
-  var arr = dataurl.split(','), mime = arr[0].match(DATA_URL_MIME_MATCHER)[1],
-      bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-  while(n--){
+  const arr = dataurl.split(',');
+  const mime = arr[0].match(DATA_URL_MIME_MATCHER)[1];
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+  while (n--) {
       u8arr[n] = bstr.charCodeAt(n);
   }
   return {bytes: u8arr, type: mime};
 }
 
 export function getMimeTypeFromDataUrl (dataurl) {
-  var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1];
+  const arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1];
   return mime;
 }
 
-//**blob to dataURL**
 export function blobToDataURL(blob) {
   return new Promise (resolve => {
-    var a:FileReader = new FileReader();
+    const a: FileReader = new FileReader();
     a.onload = function(e: FileReaderEvent) {
       resolve(e.target.result);
-    }
+    };
     a.readAsDataURL(blob); // broken in IE < 10
-  })
-};
+  });
+}
 
 export function dataURLtoFile(dataurl, name) {
   const {bytes, type} = dataURLtoByteArrayAndMimeType(dataurl);
@@ -49,8 +50,8 @@ export function getExtensionForMimeType (mime) {
 }
 
 export function mimeTypeForExtension (ext) {
-  let mime:any = false;
-  for (let possibleMime in EXTENSIONS_BY_MIME_TYPE) {
+  let mime: any = false;
+  for (const possibleMime in EXTENSIONS_BY_MIME_TYPE) {
     if (EXTENSIONS_BY_MIME_TYPE[possibleMime] === ext) mime = possibleMime;
   }
   if (!mime) throw new Error(`no mime type found for extension "${mime}"`);

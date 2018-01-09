@@ -6,21 +6,21 @@ export type BeforeUploadHandler = (file: File) => Promise<File | false>;
 @Component({
   selector: 'app-file-upload-button',
   templateUrl: './file-upload-button.component.html',
-  styleUrls: ['./file-upload-button.component.scss']
+  styleUrls: ['./file-upload-button.component.scss'],
 })
 export class FileUploadButtonComponent implements OnInit {
 
   constructor(private uploadFileService: UploadFileService) { }
 
-  chosenFile?: File
+  chosenFile?: File;
   defaultButtonText = 'Upload File';
-  awaitingResponse: boolean = false;
+  awaitingResponse = false;
 
   @ViewChild('cropper') cropper;
   @Output() uploadComplete = new EventEmitter();
-  @Input('button-text') buttonText: string
-  @Input() accept?: string
-  @Input() beforeUpload?: BeforeUploadHandler
+  @Input('button-text') buttonText: string;
+  @Input() accept?: string;
+  @Input() beforeUpload?: BeforeUploadHandler;
 
   ngOnInit() {
   }
@@ -59,9 +59,9 @@ export class FileUploadButtonComponent implements OnInit {
     .then(file => {
       this.setRequestComplete();
       if (file) {
-        this.uploadFile(file).then(this.handleUploadResponse.bind(this))
+        this.uploadFile(file).then(this.handleUploadResponse.bind(this));
       } else {
-        this.uploadComplete.emit({type: 'upload cancelled', data: null})
+        this.uploadComplete.emit({type: 'upload cancelled', data: null});
       }
     });
   }
@@ -80,9 +80,9 @@ export class FileUploadButtonComponent implements OnInit {
 
   handleUploadResponse(fileUploadResolved: FileUploadData|Error): void {
     if (fileUploadResolved instanceof Error) {
-      this.uploadComplete.emit({type: 'file upload failure', data: fileUploadResolved })
+      this.uploadComplete.emit({type: 'file upload failure', data: fileUploadResolved });
     } else {
-      this.uploadComplete.emit({type: 'file uploaded', data: fileUploadResolved})
+      this.uploadComplete.emit({type: 'file uploaded', data: fileUploadResolved});
     }
   }
 

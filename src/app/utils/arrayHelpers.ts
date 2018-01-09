@@ -1,5 +1,5 @@
 export function remove(item: any, array: any[]) {
-  var index = array.indexOf(item);
+  const index = array.indexOf(item);
   if (index > -1) {
     array.splice(index, 1);
   }
@@ -20,20 +20,19 @@ export function clear(array: any[]) {
 }
 
 export function insertAfter(index: number, item: any, array: any[]) {
-  if ((index > -1) && (index < array.length))
-  {
+  if ((index > -1) && (index < array.length)) {
     array.splice(index, 0, item);
   }
 }
 
 export function insertBefore(index: number, item: any, array: any[]) {
   if ((index >= 1) && (index < array.length)) {
-    array.splice(index-1, 0, item);
+    array.splice(index - 1, 0, item);
   }
 }
 
 export function anyOfFirstIsInSecond(firstArray: any[], secondArray: any[]) {
-  for (var i = 0; i < firstArray.length; i++){
+  for (let i = 0; i < firstArray.length; i++) {
     if (secondArray.indexOf(firstArray[i]) > -1) {
       return true;
     }
@@ -43,8 +42,8 @@ export function anyOfFirstIsInSecond(firstArray: any[], secondArray: any[]) {
 }
 
 export function allOfFirstIsInSecond(firstArray: any[], secondArray: any[]) {
-  for (var i = 0; i < firstArray.length; i++) {
-    if (secondArray.indexOf(firstArray[i]) == -1) {
+  for (let i = 0; i < firstArray.length; i++) {
+    if (secondArray.indexOf(firstArray[i]) === -1) {
       return false;
     }
   }
@@ -52,29 +51,30 @@ export function allOfFirstIsInSecond(firstArray: any[], secondArray: any[]) {
   return true;
 }
 
-export function canMoveUp(item: any, array: any[]): boolean{
+export function canMoveUp(item: any, array: any[]): boolean {
   return (array.indexOf(item) > 0);
 }
 
-export function canMoveDown(item: any, array: any[]): boolean{
+export function canMoveDown(item: any, array: any[]): boolean {
   return (array.indexOf(item) < array.length - 1);
 }
 
-export function moveUp(item: any, array: any[]){
-  if(this.canMoveUp(item, array)){
-    var index = array.indexOf(item);
+export function moveUp(item: any, array: any[]) {
+  if (this.canMoveUp(item, array)) {
+    const index = array.indexOf(item);
     this.delete(item, array);
     this.insertAfter(index - 1, item, array);
   }
 }
 
-export function moveDown(item: any, array: any[]){
-  if(this.canMoveDown(item, array)){
-    var index = array.indexOf(item);
+export function moveDown(item: any, array: any[]) {
+  if (this.canMoveDown(item, array)) {
+    const index = array.indexOf(item);
     this.delete(item, array);
-    if (index == array.length - 1)
-    array.push(item);
-    else
-    this.insertAfter(index + 1, item, array);
+    if (index === array.length - 1) {
+      array.push(item);
+    } else {
+      this.insertAfter(index + 1, item, array);
+    }
   }
 }

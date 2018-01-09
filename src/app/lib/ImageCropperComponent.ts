@@ -37,7 +37,7 @@ function temporarilyAddStylesUntilCssFilesExist () {
   document.head.appendChild(linkToCropperCss);
 }
 
-//resolves with boolean false if image is already small enough, or with dataURL of resized image
+// resolves with boolean false if image is already small enough, or with dataURL of resized image
 export function resizeImageSourceToDataUrl (src, desiredWidth, optionalMime) {
   return new Promise( function (resolve) {
     let mimeTypePromise;
@@ -47,20 +47,20 @@ export function resizeImageSourceToDataUrl (src, desiredWidth, optionalMime) {
       mimeTypePromise = discoverImageMimeTypeFromSrc(src);
     }
 
-    var img = new Image();
+    const img = new Image();
     img.crossOrigin = 'Anonymous';
     img.onload = function () {
       if (img.naturalWidth <= desiredWidth) {
         resolve(false);
         return;
       }
-      var canvas = document.createElement('canvas');
-      var ctx = canvas.getContext('2d');
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
       canvas.width = desiredWidth;
       canvas.height = canvas.width * (img.naturalHeight / img.naturalWidth);
 
       /// step 1
-      var oc = document.createElement('canvas'),
+      const oc = document.createElement('canvas'),
           octx = oc.getContext('2d');
 
       oc.width = img.naturalWidth * 0.5;
@@ -74,13 +74,13 @@ export function resizeImageSourceToDataUrl (src, desiredWidth, optionalMime) {
       0, 0, canvas.width, canvas.height);
 
       mimeTypePromise.then(mimeType => resolve(canvas.toDataURL(mimeType)));
-    }
+    };
     img.src = src;
   });
-};
+}
 
 export function  discoverImageMimeTypeFromSrc (fileNameOrDataUrl) { return new Promise( (resolve, reject) => {
-    const firstSeveralChars = fileNameOrDataUrl.slice(0,16);
+    const firstSeveralChars = fileNameOrDataUrl.slice(0, 16);
     const dataUrlMatch = firstSeveralChars.match(DATA_URL_MIME_MATCHER);
     if ( dataUrlMatch !== null ) {
       resolve(dataUrlMatch[1]);
@@ -95,8 +95,8 @@ export function  discoverImageMimeTypeFromSrc (fileNameOrDataUrl) { return new P
     }
 
     reject(new Error(`no discoverable image mime type in string beginning with ${firstSeveralChars}`));
-  })
-};
+  });
+}
 
 class ImageCropper {
 
@@ -166,7 +166,7 @@ class ImageCropper {
     const button = document.createElement('button');
     button.setAttribute('type', 'button');
     button.innerHTML = 'Cancel';
-    button.addEventListener('click', this._cancel) // TODO: remove memory leak
+    button.addEventListener('click', this._cancel); // TODO: remove memory leak
     elementToAddTo.appendChild(button);
     return button;
   }
@@ -175,7 +175,7 @@ class ImageCropper {
     const button = document.createElement('button');
     button.setAttribute('type', 'button');
     button.innerHTML = 'Crop';
-    button.addEventListener('click', this._confirmCrop) // TODO: remove memory leak
+    button.addEventListener('click', this._confirmCrop); // TODO: remove memory leak
     elementToAddTo.appendChild(button);
     return button;
   }
@@ -199,9 +199,9 @@ class ImageCropper {
       div.appendChild(img);
       this._getOriginalSrc().then(dataUrlOrUri => {
         img.onload = () => {
-          this._setOriginalWidthAndHeight(img)
+          this._setOriginalWidthAndHeight(img);
           resolve(div);
-        }
+        };
         img.src = dataUrlOrUri;
       });
       this.baseElement.appendChild(div);
@@ -221,12 +221,12 @@ class ImageCropper {
   _prepareCropper () {
     this._prepareInitialImage()
     .then(preparedDiv => {
-      let image = this.elements.image;
+      const image = this.elements.image;
       // TODO: Fix this hack.
       // The reason for this is because we are loading CropperJS in a modal, and
       // the modal need to have fully loaded first.
       setTimeout(() => {
-        this.croppingImplementation = new CroppingImplementation(image, {aspectRatio: 16/9, initialCropData: this.previousCropData});
+        this.croppingImplementation = new CroppingImplementation(image, {aspectRatio: 16 / 9, initialCropData: this.previousCropData});
         // this.croppingImplementation.logActiveData();
         this._addCancelButton(this.baseElement);
         this._addCropButton(this.baseElement);
@@ -274,7 +274,7 @@ class ImageCropper {
     return new Promise((resolve, reject) => {
       this._resolvePromise = resolve;
       this._rejectPromise = reject;
-    })
+    });
   }
 
   _setPreviousCropData (previousCropData) {

@@ -4,24 +4,24 @@ import * as arraysService from '../../utils/arrayHelpers';
 @Component({
   selector: 'app-sortable-container',
   templateUrl: './sortable-container.component.html',
-  styleUrls: ['./sortable-container.component.scss']
+  styleUrls: ['./sortable-container.component.scss'],
 })
 export class SortableContainerComponent implements OnInit {
 
   @ContentChild(TemplateRef) firstNgTemplatePassedIn;
   @Input() items: Array<any> = [];
-  @Input() directEdit: boolean = false;
-  @Input() pluralName: string = "items";
+  @Input() directEdit = false;
+  @Input() pluralName = 'items';
   @Input() emptyMessage: string;
-  @Input() allowDelete: boolean = false;
-  @Input() allowSort: boolean = true;
+  @Input() allowDelete = false;
+  @Input() allowSort = true;
   @Output() onSortChange = new EventEmitter<EmittedEvent>();
   @Output() onDeleteItem = new EventEmitter<EmittedEvent>();
 
   constructor() {}
 
   ngOnInit() {
-  	if (!this.items) {
+    if (!this.items) {
       this.items = [];
     } else if (!Array.isArray(this.items)) {
       console.error('[items] was:', this.items);
@@ -33,19 +33,19 @@ export class SortableContainerComponent implements OnInit {
     if (this.directEdit) {
       return this.items;
     }
-    return this.items.concat([])
+    return this.items.concat([]);
   }
 
-  sortItemUp(item:any) {
-    let newArray = this.getSafeToEditData();
+  sortItemUp(item: any) {
+    const newArray = this.getSafeToEditData();
     arraysService.moveUp(item, newArray);
-    this.onSortChange.emit({type: 'ItemSort', data: {newArray} })
+    this.onSortChange.emit({type: 'ItemSort', data: {newArray} });
   }
 
   sortItemDown(item: any) {
-    let newArray = this.getSafeToEditData();
+    const newArray = this.getSafeToEditData();
     arraysService.moveDown(item, newArray);
-    this.onSortChange.emit({type: 'ItemSort', data: {newArray} })
+    this.onSortChange.emit({type: 'ItemSort', data: {newArray} });
   }
 
   canMoveUp(item: any) {
@@ -57,8 +57,8 @@ export class SortableContainerComponent implements OnInit {
   }
 
   deleteItem(item: any) {
-    let newArray = this.getSafeToEditData();
+    const newArray = this.getSafeToEditData();
     arraysService.remove(item, newArray);
-    this.onDeleteItem.emit({type: 'ItemDelete', data: {newArray} })
+    this.onDeleteItem.emit({type: 'ItemDelete', data: {newArray} });
   }
 }

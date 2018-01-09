@@ -19,10 +19,10 @@ function findMagnitudeOffOrigin (magA, magB, percentFromCenter) {
 function createDeferred () {
   let resolve;
   let reject;
-  let deferred: any = new Promise((res, rej) => {
+  const deferred: any = new Promise((res, rej) => {
     resolve = res;
     reject = rej;
-  })
+  });
   deferred.resolve = resolve;
   deferred.reject = reject;
   return deferred;
@@ -65,8 +65,8 @@ export default class CroppingImplementation {
       zoomOnWheel: false,
       zoomOnTouch: false,
       crop: e => this.getCropData(),
-      ready: () => this.whenReady.resolve()
-    }
+      ready: () => this.whenReady.resolve(),
+    };
 
     this.croppingTool = new Cropper(imageElement, settings);
     this.whenReady.then(() => this.setInitialCrop());
@@ -76,15 +76,15 @@ export default class CroppingImplementation {
   getCropData () {
     const data = this._calculateCropdata();
 
-    let finalObject = {
+    const finalObject = {
       x: data.xPercent,
       y: data.yPercent,
-      zoom: data.zoomPercent
-    }
+      zoom: data.zoomPercent,
+    };
 
-    return traverseObject(finalObject, (k,v) => {
-      return [k, truncateNumberAtProperPrecision(v)]
-    })
+    return traverseObject(finalObject, (k, v) => {
+      return [k, truncateNumberAtProperPrecision(v)];
+    });
   }
 
   setInitialCrop () {
@@ -102,7 +102,7 @@ export default class CroppingImplementation {
 
   getCroppedFile (options?) {
     const ext = this._getImageExtension();
-    let file = dataURLtoFile(this.getCroppedDataUrl(options), `unnamed.${ext}`);
+    const file = dataURLtoFile(this.getCroppedDataUrl(options), `unnamed.${ext}`);
     return file;
   }
 
@@ -115,7 +115,7 @@ export default class CroppingImplementation {
   _getImageMimeType () {
     if (this.imageMimeType) return this.imageMimeType;
     const ENDS_IN_DOT_AND_THREE_LETTERS = /\.([A-Za-z]{3})$/;
-    let possibleMatch = this.imageElement.src.match(ENDS_IN_DOT_AND_THREE_LETTERS);
+    const possibleMatch = this.imageElement.src.match(ENDS_IN_DOT_AND_THREE_LETTERS);
     let mime;
     if (possibleMatch) {
       mime = mimeTypeForExtension(possibleMatch[1]);
@@ -137,34 +137,34 @@ export default class CroppingImplementation {
 
   _calculateCropdata () {
     // TODO: replace all this garbage with my nice, new functions up top.
-    let canvas = this.croppingTool.getCanvasData();
-    let cBox = this.croppingTool.getCropBoxData();
-    let iData = this.croppingTool.getImageData();
-    let cropperjsData = this.croppingTool.getData();
-    let offsetX = cBox.left - canvas.left;
-    let wFull = canvas.width;
-    let wCropped = cBox.width;
-    let xOffsetAtCenter = (wFull - wCropped) / 2;
-    let xPercent = (offsetX - xOffsetAtCenter) / wFull;
-    let offsetY = cBox.top - canvas.top;
-    let hFull = canvas.height;
-    let hCropped = cBox.height;
-    let yOffsetAtCenter = (hFull - hCropped) / 2
-    let yPercent = (offsetY - yOffsetAtCenter) / hFull;
-    let xPixelsRemainingAsPercentOfOriginal = iData.width / cBox.width;
-    let yPixelsRemainingAsPercentOfOriginal = iData.height / cBox.height;
-    let zoomPercent = Math.min(xPixelsRemainingAsPercentOfOriginal, yPixelsRemainingAsPercentOfOriginal);
+    const canvas = this.croppingTool.getCanvasData();
+    const cBox = this.croppingTool.getCropBoxData();
+    const iData = this.croppingTool.getImageData();
+    const cropperjsData = this.croppingTool.getData();
+    const offsetX = cBox.left - canvas.left;
+    const wFull = canvas.width;
+    const wCropped = cBox.width;
+    const xOffsetAtCenter = (wFull - wCropped) / 2;
+    const xPercent = (offsetX - xOffsetAtCenter) / wFull;
+    const offsetY = cBox.top - canvas.top;
+    const hFull = canvas.height;
+    const hCropped = cBox.height;
+    const yOffsetAtCenter = (hFull - hCropped) / 2;
+    const yPercent = (offsetY - yOffsetAtCenter) / hFull;
+    const xPixelsRemainingAsPercentOfOriginal = iData.width / cBox.width;
+    const yPixelsRemainingAsPercentOfOriginal = iData.height / cBox.height;
+    const zoomPercent = Math.min(xPixelsRemainingAsPercentOfOriginal, yPixelsRemainingAsPercentOfOriginal);
     return {
       canvas, cBox, iData, cropperjsData, offsetX, wFull, wCropped,
       xOffsetAtCenter, xPercent, offsetY, hFull, hCropped, yOffsetAtCenter,
       yPercent, xPixelsRemainingAsPercentOfOriginal,
-      yPixelsRemainingAsPercentOfOriginal, zoomPercent }
+      yPixelsRemainingAsPercentOfOriginal, zoomPercent };
   }
 
   logActiveData () {
     this.imageElement.addEventListener('crop', e => {
       const data = this._calculateCropdata();
-      let consoleLog = `==================================
+      const consoleLog = `==================================
       getData x       ${data.cropperjsData.x}
       offset x        ${data.offsetX}
       image left:     ${data.iData.left}
@@ -181,7 +181,7 @@ export default class CroppingImplementation {
       zoomPercent     ${data.zoomPercent}
       `;
       console.log(consoleLog);
-    })
+    });
     return this;
   }
 

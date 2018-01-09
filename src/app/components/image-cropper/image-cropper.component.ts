@@ -4,22 +4,22 @@ import CroppingImplementation from '../../lib/wrappers/CroppingImplementation';
 @Component({
   selector: 'app-image-cropper',
   templateUrl: './image-cropper.component.html',
-  styleUrls: ['./image-cropper.component.scss']
+  styleUrls: ['./image-cropper.component.scss'],
 })
 export class ImageCropperComponent implements OnInit, AfterViewInit {
 
-  visible: boolean = false;
-  croppingImplementation: CroppingImplementation
+  visible = false;
+  croppingImplementation: CroppingImplementation;
 
-  @Input('image-source') imageSrc: string
+  @Input('image-source') imageSrc: string;
   @Output() croppingComplete = new EventEmitter();
 
-  @ViewChild('image') image: ElementRef
+  @ViewChild('image') image: ElementRef;
 
   constructor() { }
 
   ngOnInit() {
-    if (this.imageSrc != undefined) {
+    if (this.imageSrc != null) {
       this.show();
     }
     this.temporarilyAddStylesUntilCssFilesExist();
@@ -40,13 +40,13 @@ export class ImageCropperComponent implements OnInit, AfterViewInit {
     this.visible = false;
   }
 
-  handleImageLoaded(e: Event){
-    this.croppingImplementation = new CroppingImplementation(this.image.nativeElement, {aspectRatio: 16/9});
+  handleImageLoaded(e: Event) {
+    this.croppingImplementation = new CroppingImplementation(this.image.nativeElement, {aspectRatio: 16 / 9});
   }
 
   handleCancel() {
     this.croppingComplete.emit({
-      type: 'cancel'
+      type: 'cancel',
     });
     this.hide();
   }
@@ -59,7 +59,7 @@ export class ImageCropperComponent implements OnInit, AfterViewInit {
     const croppedFile = this.croppingImplementation.getCroppedFile();
     this.croppingComplete.emit({
       type: 'crop',
-      data: {cropData, thumbnailDataUrl, thumbnailBlob, thumbnailFile, croppedFile}
+      data: {cropData, thumbnailDataUrl, thumbnailBlob, thumbnailFile, croppedFile},
     });
     this.hide();
   }

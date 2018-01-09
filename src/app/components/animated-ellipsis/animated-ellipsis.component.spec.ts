@@ -8,7 +8,7 @@ describe('AnimatedEllipsisComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AnimatedEllipsisComponent ]
+      declarations: [ AnimatedEllipsisComponent ],
     })
     .compileComponents();
   }));

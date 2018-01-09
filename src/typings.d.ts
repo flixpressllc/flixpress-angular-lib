@@ -7,12 +7,12 @@ interface NodeModule {
 
 // Fix for bad TS typing for FileReader types
 interface FileReaderEventTarget extends EventTarget {
-  result:string
+  result: string;
 }
 
 interface FileReaderEvent extends Event {
   target: FileReaderEventTarget;
-  getMessage():string;
+  getMessage(): string;
 }
 // end fix
 

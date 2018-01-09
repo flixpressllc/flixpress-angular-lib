@@ -10,22 +10,22 @@ interface ImageOptions {
 
 // Once we are sure what the server responds with every time, we can
 // add some real type information here
-export type FileUploadData = {
-  original: string,
-  thumbnail?: string
-};
+export interface FileUploadData {
+  original: string;
+  thumbnail?: string;
+}
 
 export type FileUploadResponse = [FileUploadData];
 
 @Injectable()
 export class UploadFileService {
 
-  uploadImageApiEndpoint: string = `http://localhost:4200/uploads-that-are-not-there`
+  uploadImageApiEndpoint = `http://localhost:4200/uploads-that-are-not-there`;
 
   constructor(private http: HttpClient) { }
 
   uploadImageBlob(imageBlob: Blob, options: ImageOptions = {withoutThumbnail: false}): Promise<FileUploadData> {
-    return this.prepAndUploadImage(imageBlob)
+    return this.prepAndUploadImage(imageBlob);
   }
 
   private postForm(formData: FormData): Promise<FileUploadData> {
@@ -35,20 +35,20 @@ export class UploadFileService {
         resolve(data[0]);
       }, error => {
         reject(error);
-      })
-    })
+      });
+    });
   }
 
   uploadFile(file, optionalFormKey?): Promise<FileUploadData> {
-    let formKey = optionalFormKey || 'userfile';
-    let fd = new FormData();
+    const formKey = optionalFormKey || 'userfile';
+    const fd = new FormData();
     fd.append(formKey, file);
     return this.postForm(fd);
   }
 
   private prepAndUploadImage (imageBlob) {
     return this.restrictImageUploadSize(imageBlob)
-    .then(imageBlob => this.uploadFile(imageBlob, 'originalImage'));
+    .then(imageBlob2 => this.uploadFile(imageBlob2, 'originalImage'));
   }
 
   private restrictImageUploadSize (imageBlob) {
@@ -56,7 +56,7 @@ export class UploadFileService {
       .then(dataUrl => this.resizeImageSourceToDataUrl(dataUrl, 1000))
       .then(smallerDataUrl => {
         if (smallerDataUrl !== false) {
-          return dataURLtoFile(smallerDataUrl, imageBlob.name)
+          return dataURLtoFile(smallerDataUrl, imageBlob.name);
         } else {
           return imageBlob;
         }
@@ -72,20 +72,20 @@ export class UploadFileService {
         mimeTypePromise = this.discoverImageMimeTypeFromSrc(src);
       }
 
-      var img = new Image();
+      const img = new Image();
       img.crossOrigin = 'Anonymous';
       img.onload = function () {
         if (img.naturalWidth <= desiredWidth) {
           resolve(false);
           return;
         }
-        var canvas = document.createElement('canvas');
-        var ctx = canvas.getContext('2d');
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
         canvas.width = desiredWidth;
         canvas.height = canvas.width * (img.naturalHeight / img.naturalWidth);
 
         /// step 1
-        var oc = document.createElement('canvas'),
+        const oc = document.createElement('canvas'),
             octx = oc.getContext('2d');
 
         oc.width = img.naturalWidth * 0.5;
@@ -99,14 +99,14 @@ export class UploadFileService {
         0, 0, canvas.width, canvas.height);
 
         mimeTypePromise.then(mimeType => resolve(canvas.toDataURL(mimeType)));
-      }
+      };
       img.src = src;
     });
   }
 
   private  discoverImageMimeTypeFromSrc (fileNameOrDataUrl) {
     return new Promise( (resolve, reject) => {
-      const firstSeveralChars = fileNameOrDataUrl.slice(0,16);
+      const firstSeveralChars = fileNameOrDataUrl.slice(0, 16);
       const dataUrlMatch = firstSeveralChars.match(DATA_URL_MIME_MATCHER);
       if ( dataUrlMatch !== null ) {
         resolve(dataUrlMatch[1]);

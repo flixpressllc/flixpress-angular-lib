@@ -8,7 +8,7 @@ describe('SortableContainerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SortableContainerComponent ]
+      declarations: [ SortableContainerComponent ],
     })
     .compileComponents();
   }));

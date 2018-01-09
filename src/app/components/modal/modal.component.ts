@@ -13,12 +13,12 @@ import { ModalBase } from './modalbase';
 export class ModalComponent extends ModalBase implements OnInit {
 
   constructor() {
-  	super();
+    super();
   }
 
   ngOnInit() {
-  	if (this.title == null){
-			this.title = "Window";
-		}
+    if (this.title == null) {
+      this.title = 'Window';
+    }
   }
 }

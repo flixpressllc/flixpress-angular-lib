@@ -3,12 +3,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 @Component({
   selector: 'app-animated-ellipsis',
   templateUrl: './animated-ellipsis.component.html',
-  styleUrls: ['./animated-ellipsis.component.scss']
+  styleUrls: ['./animated-ellipsis.component.scss'],
 })
 export class AnimatedEllipsisComponent implements OnInit, OnDestroy {
 
   dots: string;
-  tempo = 500
+  tempo = 500;
   numDots = 5;
   interval: number;
 
@@ -16,9 +16,9 @@ export class AnimatedEllipsisComponent implements OnInit, OnDestroy {
     this.reset();
     let currentTimeout = 0;
 
-    for (let i = this.numDots; i > 0; --i){
+    for (let i = this.numDots; i > 0; --i) {
       currentTimeout = currentTimeout + this.tempo;
-      setTimeout(()=>{
+      setTimeout(() => {
         this.dots = this.dots + '.';
       }, currentTimeout);
     }
@@ -38,7 +38,7 @@ export class AnimatedEllipsisComponent implements OnInit, OnDestroy {
   }
 
   runAnimation() {
-    const fullCycle = this.tempo * (this.numDots + 1)
+    const fullCycle = this.tempo * (this.numDots + 1);
     this.animate();
     return setInterval(this.animate.bind(this), fullCycle);
   }

@@ -27,19 +27,19 @@ import { CollapsiblePanelComponent } from './components/collapsible-panel/collap
     ModalComponent,
     SortableContainerComponent,
     CollapsiblePanelComponent,
-    DynamicHostDirective
+    DynamicHostDirective,
   ],
   entryComponents: [
-    ImageCropperComponent
+    ImageCropperComponent,
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     UploadFileService,
-    ApiRootsService
+    ApiRootsService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

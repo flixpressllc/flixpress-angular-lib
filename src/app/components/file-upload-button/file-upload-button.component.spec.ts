@@ -8,7 +8,7 @@ describe('FileUploadButtonComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FileUploadButtonComponent ]
+      declarations: [ FileUploadButtonComponent ],
     })
     .compileComponents();
   }));

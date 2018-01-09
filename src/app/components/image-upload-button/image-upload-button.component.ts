@@ -1,4 +1,15 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter, Input, ComponentFactoryResolver, ComponentFactory, AfterViewInit, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  Output,
+  EventEmitter,
+  Input,
+  ComponentFactoryResolver,
+  ComponentFactory,
+  AfterViewInit,
+  ViewContainerRef,
+} from '@angular/core';
 import { ImageCropperComponent } from '../image-cropper/image-cropper.component';
 import { BeforeUploadHandler } from '../file-upload-button/file-upload-button.component';
 import { blobToDataURL } from '../../lib/fileManipulation';
@@ -7,18 +18,18 @@ import { DynamicHostDirective } from '../../directives/dynamic-host.directive';
 @Component({
   selector: 'app-image-upload-button',
   templateUrl: './image-upload-button.component.html',
-  styleUrls: ['./image-upload-button.component.scss']
+  styleUrls: ['./image-upload-button.component.scss'],
 })
 export class ImageUploadButtonComponent implements OnInit, AfterViewInit {
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 
   defaultButtonText = 'Upload Image';
-  @Input('button-text') buttonText: string
-  @Input('crop-image') cropImage: boolean = true;
+  @Input('button-text') buttonText: string;
+  @Input('crop-image') cropImage = true;
   @Output() uploadComplete = new EventEmitter();
 
-  viewContainerRef: ViewContainerRef
+  viewContainerRef: ViewContainerRef;
   cropperFactory: ComponentFactory<ImageCropperComponent> =
     this.componentFactoryResolver
     .resolveComponentFactory(ImageCropperComponent);
@@ -41,7 +52,7 @@ export class ImageUploadButtonComponent implements OnInit, AfterViewInit {
   }
 
   private createLocalImageFromFile(file: File) {
-    let image = new Image();
+    const image = new Image();
     return blobToDataURL(file).then(dataUrl => {
       image.src = <string>dataUrl;
       return image;
@@ -54,13 +65,13 @@ export class ImageUploadButtonComponent implements OnInit, AfterViewInit {
   }
 
   async handleCropFile(file: File): Promise<File | false> {
-    const image = await this.createLocalImageFromFile(file)
+    const image = await this.createLocalImageFromFile(file);
     const cropperInstance = this.getCropperInstance();
     const promise = this.waitForCropperInstance(cropperInstance);
 
     cropperInstance.imageSrc = image.src;
 
-    return await promise;
+    return promise;
   }
 
   waitForCropperInstance(cropperInstance: ImageCropperComponent): Promise<File | false> {
@@ -72,7 +83,7 @@ export class ImageUploadButtonComponent implements OnInit, AfterViewInit {
           resolve(false);
         }
       });
-    })
+    });
   }
 
   getCropperInstance(): ImageCropperComponent {
@@ -95,7 +106,7 @@ export class ImageUploadButtonComponent implements OnInit, AfterViewInit {
         type = 'image upload cancelled';
       break;
     }
-    this.uploadComplete.emit({type, data})
+    this.uploadComplete.emit({type, data});
   }
 
 }

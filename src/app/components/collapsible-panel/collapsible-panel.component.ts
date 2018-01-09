@@ -10,13 +10,13 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CollapsiblePanelComponent implements OnInit {
 
-	@Input("is-expanded") isExpanded: boolean = true;
-  @Input('force-open') forceOpen: boolean = false;
-	@Input("title") title: string;
+  @Input('is-expanded') isExpanded = true;
+  @Input('force-open') forceOpen = false;
+  @Input('title') title: string;
 
   expandedIndicator: string;
-  private _indicateIsExpanded = " - ";
-  private _indicateIsClosed = " + ";
+  private _indicateIsExpanded = ' - ';
+  private _indicateIsClosed = ' + ';
 
   constructor() { }
 
@@ -29,7 +29,7 @@ export class CollapsiblePanelComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.forceOpen) {this.isExpanded = true;}
+    if (this.forceOpen) {this.isExpanded = true; }
     this.setIndicator();
   }
 
@@ -40,7 +40,7 @@ export class CollapsiblePanelComponent implements OnInit {
   }
 
   doToggleExpanded() {
-  	this.isExpanded = !this.isExpanded;
+    this.isExpanded = !this.isExpanded;
     this.setIndicator();
   }
 
