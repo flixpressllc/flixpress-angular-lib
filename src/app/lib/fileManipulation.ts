@@ -37,7 +37,7 @@ export function blobToDataURL(blob) {
   });
 }
 
-export function dataURLtoFile(dataurl, name) {
+export function dataURLtoFile(dataurl, name?) {
   const {bytes, type} = dataURLtoByteArrayAndMimeType(dataurl);
     name = name || 'unnamed';
     return new File([bytes], name, {type}); // Broken in IE <= 11  // TODO: fix this
