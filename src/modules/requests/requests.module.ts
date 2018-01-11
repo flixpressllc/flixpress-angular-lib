@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {RequestsService, createApiConfig, API_CONFIG, ApiConfig} from '../../app/services/requests.service';
+import {RequestsService, createApiConfig, API_CONFIG, ApiConfig} from './requests.service';
 
 
 
@@ -32,4 +32,4 @@ export class RequestsModule {
   }
 }
 
-export * from '../../app/services/requests.service';
+export * from './requests.service';

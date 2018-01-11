@@ -16,7 +16,7 @@ import { ImageUploadButtonComponent } from './components/image-upload-button/ima
 import { ModalComponent } from './components/modal/modal.component';
 import { SortableContainerComponent } from './components/sortable-container/sortable-container.component';
 import { CollapsiblePanelComponent } from './components/collapsible-panel/collapsible-panel.component';
-import { RequestsService } from './services/requests.service';
+import { RequestsService } from '../modules/requests/requests.service';
 import { LocalStorageService } from './services/local-storage.service';
 
 @NgModule({
