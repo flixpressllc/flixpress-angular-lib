@@ -1,0 +1,42 @@
+$prompter-font-size: 7em;
+$left-gutter: 1.5em;
+
+:host {
+  box-sizing: border-box;
+  background: black;
+  display: block;
+  font-size: $prompter-font-size;
+  padding-top: 1em;
+  font-family: 'Arial Black', sans-serif;
+}
+
+.arrow {
+  position: fixed;
+  left: 5%;
+  font-family: 'Arial', arial, sans-serif;
+  font-size: 1.2em;
+  color: #fff;
+  cursor: pointer;
+
+  &:hover {
+    background-color: blue;
+  }
+}
+
+.copy {
+  //width :60%;
+  //text-transform: uppercase;
+  line-height: 1.5em;
+  padding-left: $left-gutter;
+  color: #fff;
+}
+
+#beginning {
+  padding-left: $left-gutter;
+}
+
+#end {
+  color: #444;
+  padding-left: $left-gutter;
+  padding-top: 1em;
+}

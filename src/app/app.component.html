@@ -1,28 +1,6 @@
-<h1>Component Examples</h1>
+<h1>Examples</h1>
 
-<h2>Collapsible Panel</h2>
+<a routerLink="/teleprompter">Test the teleprompter</a>
+<a routerLink="/examples">See many components</a>
 
-<app-collapsible-panel title="Sample Title">
-	<div>
-	Lorem ipsum...
-	</div>
-</app-collapsible-panel>
-
-<h2>Sortable Container</h2>
-
-<app-sortable-container [items]="players" [directEdit]="true">
-	<ng-template let-player>
-    <app-collapsible-panel [title]="player.name">
-			Position: {{player.position}}<br/>
-			Number: {{player.number}}<br/>
-		</app-collapsible-panel>
-	</ng-template>
-</app-sortable-container>
-
-<app-image-upload-button
-  (uploadComplete)="log($event)"
-></app-image-upload-button>
-
-<app-file-upload-button
-  (uploadComplete)="log($event)"
-></app-file-upload-button>
+<router-outlet></router-outlet>
