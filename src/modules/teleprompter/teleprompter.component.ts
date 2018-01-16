@@ -1,4 +1,13 @@
-import {Component, Inject, OnInit, Input, ElementRef, EventEmitter, OnDestroy} from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnInit,
+  Input,
+  ElementRef,
+  EventEmitter,
+  OnDestroy,
+  Output,
+} from '@angular/core';
 import { PageScrollService, PageScrollInstance, PageScrollOptions} from 'ngx-page-scroll';
 import { DOCUMENT } from '@angular/common';
 import { Subscription } from 'rxjs/Subscription';
@@ -15,6 +24,7 @@ export class TeleprompterComponent implements OnInit, OnDestroy {
   @Input() manualScrollButtonText = 'Start Scrolling';
   @Input() scrollDuration = 8000;
   @Input() maxHeight = undefined;
+  @Output() events = new EventEmitter();
 
   private scrollTopListener = new EventEmitter<boolean>(); // This is what pageScrollFinishListener expects, otherwise, we would use RxJs
 
@@ -23,7 +33,7 @@ export class TeleprompterComponent implements OnInit, OnDestroy {
   private scrollToTop: PageScrollInstance = undefined;
   private scrollToBottom: PageScrollInstance = undefined;
 
-  private promptingState: PrompterState = 'ready';
+  private _promptingState: PrompterState = 'ready';
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -40,6 +50,22 @@ export class TeleprompterComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach(s => s.unsubscribe());
+  }
+
+  get promptingState() {
+    return this._promptingState;
+  }
+
+  set promptingState(newState: PrompterState) {
+    const oldState = this._promptingState;
+    if (oldState === newState) return;
+    const event = {
+      type: 'state_change',
+      oldValue: oldState,
+      newValue: newState,
+    };
+    this._promptingState = newState;
+    this.events.emit(event);
   }
 
   subscribe() {
