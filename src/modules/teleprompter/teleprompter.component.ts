@@ -7,6 +7,8 @@ import {
   EventEmitter,
   OnDestroy,
   Output,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import { PageScrollService, PageScrollInstance, PageScrollOptions} from 'ngx-page-scroll';
 import { DOCUMENT } from '@angular/common';
@@ -19,7 +21,7 @@ type PrompterState = 'done' | 'prompting' | 'ready' | 'interrupted';
   templateUrl: './teleprompter.component.html',
   styleUrls: ['./teleprompter.component.scss'],
 })
-export class TeleprompterComponent implements OnInit, OnDestroy {
+export class TeleprompterComponent implements OnInit, OnDestroy, OnChanges {
   @Input() copy = 'You\'ll want to provide some text here so that you can test scrolling. Do so by passing it in as [copy] to this component. You will also need to pass in [scrollTime] as milliseconds';
   @Input() manualScrollButtonText = 'Start Scrolling';
   @Input() scrollDuration = 8000;
@@ -50,6 +52,10 @@ export class TeleprompterComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach(s => s.unsubscribe());
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.calculateHeights();
   }
 
   get promptingState() {
