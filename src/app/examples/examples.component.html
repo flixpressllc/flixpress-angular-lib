@@ -29,5 +29,13 @@
   (uploadComplete)="log($event)"
 ></app-file-upload-button>
 
+<div>
+  <button (click)="openModal()">Open Modal</button>
+  <app-modal [isOpen]="modalIsOpen" (onClose)="closeModal()">
+    <div>
+      Any content you like in here.
+    </div>
+  </app-modal>
+</div>
 
 

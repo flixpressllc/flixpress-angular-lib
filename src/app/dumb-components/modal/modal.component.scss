@@ -1,8 +1,9 @@
 @import '../imports';
 
 .modal-overlay {
+  box-sizing: border-box;
   display: flex;
-  align-content: center;
+  justify-content: center;
   align-items: center;
 
   position: fixed;
@@ -40,36 +41,29 @@
     background-color: white;
     max-height: calc(100% - 3em);
     overflow: auto; /* Enable scroll if needed */
+    padding: 1em;
   }
-
-  > header {
-    width: 100%;
-    @include clearfix();
-    background-color: $main-color;
-    margin-bottom: 0px;
-
-    > div:first-child{
-      float: left;
-      padding: $general-padding;
-      color: white;
-    }
-
-    > div:last-child{
-      float: right;
-      & > span {
-        color: white;
-        font-size: 110%;
-        padding: 5px;
-        background-color: tint($main-color, 50%);
-        box-sizing: border-box;
-        cursor: pointer;
-      }
-
-      .close {
-        background-color: $danger-color;
-      }
-    }
-
-  }
-
 }
+
+.title-bar {
+  background-color: $main-color;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.closeButton {
+  color: white;
+  font-size: 110%;
+  padding: 5px;
+  background-color: tint($main-color, 50%);
+  cursor: pointer;
+}
+
+.title {
+  color: white;
+  text-align: center;
+  flex-grow: 1;
+}
+

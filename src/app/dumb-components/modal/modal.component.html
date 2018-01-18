@@ -1,15 +1,13 @@
 <div class="modal-overlay"
-	*ngIf="isOpen">
+	*ngIf="_isOpen">
 
-	<dialog open class="modal" [ngClass]="classes">
-		<header>
-			<div>{{title}}</div>
-			<div>
-				<span class="close fa fa-close" (click)="close()"> </span>
-			</div>
+	<div class="modal" [ngClass]="classes">
+		<header class="title-bar">
+			<div class="title">{{title}}</div>
+			<div class="closeButton" (click)="close()">close</div>
 		</header>
 		<section>
 			<ng-content></ng-content>
 		</section>
-	</dialog>
+	</div>
 <div>

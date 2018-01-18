@@ -24,6 +24,7 @@ export class ExamplesComponent implements OnInit {
   autoCompleteSearchResults: any[];
 
   toggleButtonItems: Array<string>;
+  private modalIsOpen = false;
 
   constructor() { }
 
@@ -68,5 +69,13 @@ export class ExamplesComponent implements OnInit {
 
   log(any: any) {
     console.log(any);
+  }
+
+  openModal() {
+    this.modalIsOpen = true;
+  }
+
+  closeModal() {
+    this.modalIsOpen = false;
   }
 }
