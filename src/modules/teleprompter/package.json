@@ -1,0 +1,27 @@
+{
+  "name": "@flixpress/angular-teleprompter",
+  "version": "0.1.2",
+  "description": "Simple enough teleprompter",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flixpressllc/useful-angular-components.git"
+  },
+  "author": "@happycollision",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flixpressllc/useful-angular-components/issues"
+  },
+  "homepage": "https://github.com/flixpressllc/useful-angular-components#readme",
+  "peerDependencies": {
+    "@angular/core": "^5.0.0",
+    "@angular/common": "^5.0.0",
+    "rxjs": "^5.5.0"
+  },
+  "dependencies": {
+    "ngx-page-scroll": "^4.0.2"
+  }
+}

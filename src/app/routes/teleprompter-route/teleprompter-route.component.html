@@ -1,0 +1,6 @@
+<button (click)="prompter.beginPrompting()">Start prompting</button>
+
+<app-teleprompter #prompter
+  copy="This text was passed in from the parent. It should display in place of the informational text that the teleprompter has by default."
+  [scrollDuration]="12000"
+></app-teleprompter>

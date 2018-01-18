@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
-import { UploadFileService, FileUploadData } from '../../services/upload-file.service';
+import { UploadFileService } from '../../services/upload-file.service';
 
 export type BeforeUploadHandler = (file: File) => Promise<File | false>;
 
@@ -59,7 +59,7 @@ export class FileUploadButtonComponent implements OnInit {
     .then(file => {
       this.setRequestComplete();
       if (file) {
-        this.uploadFile(file).then(this.handleUploadResponse.bind(this));
+        this.uploadFile(file).toPromise().then(this.handleUploadResponse.bind(this));
       } else {
         this.uploadComplete.emit({type: 'upload cancelled', data: null});
       }
@@ -78,7 +78,7 @@ export class FileUploadButtonComponent implements OnInit {
     return this.uploadFileService.uploadFile(file);
   }
 
-  handleUploadResponse(fileUploadResolved: FileUploadData|Error): void {
+  handleUploadResponse(fileUploadResolved: any | Error): void {
     if (fileUploadResolved instanceof Error) {
       this.uploadComplete.emit({type: 'file upload failure', data: fileUploadResolved });
     } else {
