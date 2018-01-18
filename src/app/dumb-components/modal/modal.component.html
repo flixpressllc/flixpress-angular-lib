@@ -1,0 +1,13 @@
+<div class="modal-overlay"
+	*ngIf="_isOpen">
+
+	<div class="modal" [ngClass]="classes">
+		<header class="title-bar">
+			<div class="title">{{title}}</div>
+			<div class="closeButton" (click)="close()">close</div>
+		</header>
+		<section>
+			<ng-content></ng-content>
+		</section>
+	</div>
+<div>

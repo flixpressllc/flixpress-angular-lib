@@ -1,19 +1,32 @@
-import {Input, Output, EventEmitter, OnDestroy, AfterViewInit, OnInit} from '@angular/core';
+import {Input, Output, EventEmitter, OnDestroy, AfterViewInit, OnInit, OnChanges, SimpleChanges} from '@angular/core';
 
 const MODAL_OPEN_CLASS = ' __ModalOpen';
 
-export abstract class ModalBase implements OnDestroy, AfterViewInit {
+export abstract class ModalBase implements OnDestroy, AfterViewInit, OnChanges {
   @Input() title: string;
-  @Input('full-screen') fullScreen: boolean | string = false;
+  @Input() fullScreen: boolean | string = false;
+  @Input() isOpen: boolean;
 
   @Output() onOpen: EventEmitter<any> = new EventEmitter<any>();
   @Output() onClose: EventEmitter<any> = new EventEmitter<any>();
 
-  isOpen: boolean;
+  private _isOpen: boolean;
   classes: Object;
 
   ngAfterViewInit() {
     this.updateClasses();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.updateOpenState();
+  }
+
+  updateOpenState() {
+    if (this.isOpen) {
+      this.open();
+    } else {
+      this.close();
+    }
   }
 
   isFullScreen() {
@@ -41,13 +54,13 @@ export abstract class ModalBase implements OnDestroy, AfterViewInit {
   }
 
   open() {
-    this.isOpen = true;
+    this._isOpen = true;
     this.indicateOpenOnBody();
     this.onOpen.emit();
   }
 
   close() {
-    this.isOpen = false;
+    this._isOpen = false;
     this.indicateClosedOnBody();
     this.onClose.emit();
   }
