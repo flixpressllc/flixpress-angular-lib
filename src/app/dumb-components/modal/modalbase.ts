@@ -4,7 +4,7 @@ const MODAL_OPEN_CLASS = ' __ModalOpen';
 
 export abstract class ModalBase implements OnDestroy, AfterViewInit {
   @Input() title: string;
-  @Input('full-screen') fullScreen: boolean | string = false;
+  @Input() fullScreen: boolean | string = false;
 
   @Output() onOpen: EventEmitter<any> = new EventEmitter<any>();
   @Output() onClose: EventEmitter<any> = new EventEmitter<any>();
