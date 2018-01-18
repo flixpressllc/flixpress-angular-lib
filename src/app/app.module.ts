@@ -19,7 +19,7 @@ import { ImageUploadButtonComponent } from './components/image-upload-button/ima
 import { ModalComponent } from './dumb-components/modal/modal.component';
 import { SortableContainerComponent } from './dumb-components/sortable-container/sortable-container.component';
 import { CollapsiblePanelComponent } from './dumb-components/collapsible-panel/collapsible-panel.component';
-import { RequestsService } from '../modules/requests/requests.service';
+import { RequestsService } from '../modules/requests';
 import { LocalStorageService } from './services/local-storage.service';
 import { TeleprompterRouteComponent } from './routes/teleprompter-route/teleprompter-route.component';
 import { RouteNotFoundComponent } from './routes/route-not-found/route-not-found.component';
