@@ -1,20 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-// import { trigger, state, style, transition, animate } from '@angular/animations';
-// import { fadeInAnimation, scaleAnimation } from '../animations/animations';
 import * as arraysService from './dumb-components/arrayHelpers';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  // animations: [
-  //   fadeInAnimation, scaleAnimation
-  // ],
-  // host: { '[@fadeInAnimation]': ''}
 })
 export class AppComponent implements OnInit {
-
-  animateState = 'smaller';
 
   canMoveUp: boolean;
   canMoveDown: boolean;
@@ -69,52 +61,5 @@ export class AppComponent implements OnInit {
     this.localStorageValue = localStorage.getItem('localStorageValue') || '';
 
     this.toggleButtonItems = ['Apple', 'Orange', 'Onion', 'Liquid Smoke', 'Ketchup'];
-  }
-
-  onDeleteRequestHandler(player) {
-    arraysService.remove(player, this.players);
-  }
-
-  onMoveUpRequestHandler(player) {
-    arraysService.moveUp(player, this.players);
-  }
-
-  onMoveDownRequestHandler(player) {
-    arraysService.moveDown(player, this.players);
-  }
-
-  commitLocalStorageValue() {
-    localStorage.setItem('localStorageValue', this.localStorageValue);
-  }
-
-  clearLocalStorageValue() {
-    localStorage.setItem('localStorageValue', null);
-    this.localStorageValue = null;
-  }
-
-  log(any: any) {
-    console.log(any);
-  }
-
-  animate() {
-    this.animateState = this.animateState === 'larger' ? 'smaller' : 'larger';
-  }
-
-  onSearchTypeHandler(newText) {
-    // console.log("@host component: " + newText);
-    // this.autoCompleteSearchResults = [];
-    this.autoCompleteSearchResults = this.fakeSearchResults.filter((item) => {
-      return item.name.indexOf(newText) !== -1;
-    });
-
-    // console.log(JSON.stringify(this.autoCompleteSearchResults));
-  }
-
-  onSelectHandler(selectedItem) {
-    console.log('@host handler selected: ' + JSON.stringify(selectedItem));
-  }
-
-  onToggleButtonItemSelected(item) {
-    console.log('Toggle Button selected item was: ' + item);
   }
 }
