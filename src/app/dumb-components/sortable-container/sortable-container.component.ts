@@ -1,5 +1,5 @@
 import { Component, OnInit, ContentChild, TemplateRef, Input, Output, EventEmitter } from '@angular/core';
-import * as arraysService from '../../utils/arrayHelpers';
+import * as arraysService from '../arrayHelpers';
 
 @Component({
   selector: 'app-sortable-container',

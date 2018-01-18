@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import * as arraysService from './utils/arrayHelpers';
 // import { trigger, state, style, transition, animate } from '@angular/animations';
 // import { fadeInAnimation, scaleAnimation } from '../animations/animations';
+import * as arraysService from './dumb-components/arrayHelpers';
 
 @Component({
   selector: 'app-root',

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as arraysService from '../utils/arrayHelpers';
+import * as arraysService from '../dumb-components/arrayHelpers';
 
 @Component({
   selector: 'app-examples',

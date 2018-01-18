@@ -12,13 +12,13 @@ import { DynamicHostDirective } from './directives/dynamic-host.directive';
 
 import { TeleprompterModule} from '../modules/teleprompter';
 
-import { AnimatedEllipsisComponent } from './components/animated-ellipsis/animated-ellipsis.component';
+import { AnimatedEllipsisComponent } from './dumb-components/animated-ellipsis/animated-ellipsis.component';
 import { FileUploadButtonComponent } from './components/file-upload-button/file-upload-button.component';
 import { ImageCropperComponent } from './components/image-cropper/image-cropper.component';
 import { ImageUploadButtonComponent } from './components/image-upload-button/image-upload-button.component';
-import { ModalComponent } from './components/modal/modal.component';
-import { SortableContainerComponent } from './components/sortable-container/sortable-container.component';
-import { CollapsiblePanelComponent } from './components/collapsible-panel/collapsible-panel.component';
+import { ModalComponent } from './dumb-components/modal/modal.component';
+import { SortableContainerComponent } from './dumb-components/sortable-container/sortable-container.component';
+import { CollapsiblePanelComponent } from './dumb-components/collapsible-panel/collapsible-panel.component';
 import { RequestsService } from '../modules/requests/requests.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { TeleprompterRouteComponent } from './routes/teleprompter-route/teleprompter-route.component';
