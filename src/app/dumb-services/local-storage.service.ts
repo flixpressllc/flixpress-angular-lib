@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
 
-export const localStorageKeys = {
-  accessToken: 'accessToken',
-};
-
 @Injectable()
 export class LocalStorageService {
 
