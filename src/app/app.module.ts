@@ -6,7 +6,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 
 import { UploadFileService } from './services/upload-file.service';
-import { ApiRootsService } from './services/api-roots.service';
 
 import { DynamicHostDirective } from './directives/dynamic-host.directive';
 
@@ -71,7 +70,6 @@ const routes: Routes = [
   ],
   providers: [
     UploadFileService,
-    ApiRootsService,
     RequestsService,
     LocalStorageService,
   ],
