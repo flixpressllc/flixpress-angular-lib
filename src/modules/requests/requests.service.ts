@@ -195,13 +195,14 @@ export class RequestsService {
     }) as Promise<ServerResponse>;
   }
 
-  async multipartApiCall(urlRoute: string, requestData: FormData): Promise<ServerResponse> {
-    const finalUrl = `${this.apiConfig.apiRoot}/${urlRoute}`;
+  async multipartApiCall(settings: {urlRoute: string, requestData: FormData, apiRoot?: string}): Promise<ServerResponse> {
+    const root = settings.apiRoot || this.apiConfig.apiRoot;
+    const finalUrl = `${root}/${settings.urlRoute}`;
     const options = await this.getAuthorizedRequestOptions();
 
     return new Promise((resolve, reject) => {
-      const observable = this.makeApiCall('post', finalUrl, requestData, options);
-      this.resolveServerCallWithinPromise(observable, resolve, reject, 'post', urlRoute);
+      const observable = this.makeApiCall('post', finalUrl, settings.requestData, options);
+      this.resolveServerCallWithinPromise(observable, resolve, reject, 'post', settings.urlRoute);
     }) as Promise<ServerResponse>;
   }
 }
