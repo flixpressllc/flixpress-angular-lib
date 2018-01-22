@@ -53,12 +53,11 @@ export class FileUploadButtonComponent implements OnInit {
   }
 
   handleChosenFileChange(changeEvent) {
-    this.setRequestPending();
     const chosenFile = changeEvent.target.files[0];
-    const uploadPromise = this.allowBeforeHook(chosenFile)
+    this.allowBeforeHook(chosenFile)
     .then(file => {
-      this.setRequestComplete();
       if (file) {
+        this.setRequestPending();
         this.uploadFile(file).toPromise().then(this.handleUploadResponse.bind(this));
       } else {
         this.uploadComplete.emit({type: 'upload cancelled', data: null});
@@ -79,6 +78,7 @@ export class FileUploadButtonComponent implements OnInit {
   }
 
   handleUploadResponse(fileUploadResolved: any | Error): void {
+    this.setRequestComplete();
     if (fileUploadResolved instanceof Error) {
       this.uploadComplete.emit({type: 'file upload failure', data: fileUploadResolved });
     } else {
