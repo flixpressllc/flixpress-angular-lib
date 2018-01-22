@@ -1,6 +1,6 @@
 {
   "name": "@flixpress/angular-requests",
-  "version": "0.1.3",
+  "version": "1.0.0-beta.1",
   "description": "Abstraction above Angular's http service",
   "main": "index.ts",
   "scripts": {
