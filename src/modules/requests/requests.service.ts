@@ -77,7 +77,7 @@ export class RequestsService {
   }
 
   clearLocalToken() {
-    this.accessToken = null;
+    this._accessToken = null;
   }
 
   setCredentials({username, password}) {
@@ -110,8 +110,10 @@ export class RequestsService {
   }
 
   private getAccessToken(): Promise<string> {
-    return new Promise((resolve, reject) => {
+    // tslint:disable-next-line
+    this.accessToken; // Not sure why, but this needs to be called so that it is ready below
 
+    return new Promise((resolve, reject) => {
       if (!this.accessToken) {
         if (!this.credentialsString) throw new Error('No credentials were set before requesting token.');
         this.makeFormApiCall('post', this.apiConfig.tokenEndpoint, this.credentialsString).then((res: AccessTokenResponse) => {
