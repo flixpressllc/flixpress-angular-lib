@@ -84,6 +84,11 @@ export class RequestsService {
     this.credentialsString = `username=${username}&password=${password}&grant_type=password`;
   }
 
+  clearCredentials() {
+    this.setCredentials({username: '', password: ''});
+    this.accessToken = null;
+  }
+
   set accessToken(token: string | null) {
     this._accessToken = token;
     this.updateStoredToken(token);
