@@ -8,6 +8,10 @@ $left-gutter: 1.5em;
   font-size: $prompter-font-size;
   padding-top: 1em;
   font-family: 'Arial Black', sans-serif;
+
+  &.mirror > * {
+    transform: scaleX(-1);
+  }
 }
 
 .arrow {
@@ -21,6 +25,11 @@ $left-gutter: 1.5em;
   &:hover {
     background-color: blue;
   }
+}
+
+:host.mirror .arrow {
+  right: 5%;
+  left: auto;
 }
 
 .copy {

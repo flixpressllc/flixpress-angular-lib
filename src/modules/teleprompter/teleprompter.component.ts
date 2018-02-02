@@ -9,6 +9,7 @@ import {
   Output,
   OnChanges,
   SimpleChanges,
+  HostBinding,
 } from '@angular/core';
 import { PageScrollService, PageScrollInstance, PageScrollOptions} from 'ngx-page-scroll';
 import { DOCUMENT } from '@angular/common';
@@ -26,7 +27,13 @@ export class TeleprompterComponent implements OnInit, OnDestroy, OnChanges {
   @Input() manualScrollButtonText = 'Start Scrolling';
   @Input() scrollDuration = 8000;
   @Input() maxHeight = undefined;
+  @Input() mirror = false;
   @Output() events = new EventEmitter();
+
+  @HostBinding('class.mirror')
+  public get isMirrored(): boolean {
+    return this.mirror;
+  }
 
   private scrollTopListener = new EventEmitter<boolean>(); // This is what pageScrollFinishListener expects, otherwise, we would use RxJs
 
