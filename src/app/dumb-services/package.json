@@ -1,6 +1,6 @@
 {
   "name": "@flixpress/angular-simple-services",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Simple, reusable services without dependencies",
   "main": "index.ts",
   "scripts": {
@@ -20,5 +20,11 @@
     "@angular/core": "^5.0.0",
     "@angular/common": "^5.0.0",
     "rxjs": "^5.5.0"
+  },
+  "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
+  "ngPackage": {
+    "lib": {
+      "entryFile": "public_api.ts"
+    }
   }
 }
