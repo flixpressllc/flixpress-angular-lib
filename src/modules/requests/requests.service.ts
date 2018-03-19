@@ -2,8 +2,8 @@ import { Injectable, InjectionToken, isDevMode, Inject, Optional } from '@angula
 import { HttpClient, HttpHeaders, HttpErrorResponse, /*HttpObserve,*/ HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
-type CallType = 'get' | 'put' | 'post' | 'delete';
-type ServerResponse = any;
+export type CallType = 'get' | 'put' | 'post' | 'delete';
+export type ServerResponse = any;
 
 export interface ApiConfig {
   apiRoot: string;

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RequestsService, createApiConfig, API_CONFIG, ApiConfig} from './requests.service';
 
@@ -16,7 +16,7 @@ export class RequestsModule {
     apiRoot,
     tokenEndpoint,
     localStorageKeys?: ApiConfig['localStorageKeys'],
-  }) {
+  }): ModuleWithProviders {
     const GIVEN_API_CONFIG = createApiConfig(
       options.apiRoot,
       options.tokenEndpoint,
