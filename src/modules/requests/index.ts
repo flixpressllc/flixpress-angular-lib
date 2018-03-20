@@ -13,8 +13,8 @@ import {RequestsService, createApiConfig, API_CONFIG, ApiConfig} from './request
 })
 export class RequestsModule {
   static forRoot(options: {
-    apiRoot,
-    tokenEndpoint,
+    apiRoot: string,
+    tokenEndpoint: string,
     localStorageKeys?: ApiConfig['localStorageKeys'],
   }): ModuleWithProviders {
     const GIVEN_API_CONFIG = createApiConfig(
