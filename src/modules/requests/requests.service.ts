@@ -55,6 +55,7 @@ export class RequestsService {
 
   private credentialsString: string;
   private _accessToken: string;
+  private baseHeaders: HttpHeaders;
 
   private static handleRequestError(err: HttpErrorResponse) {
     if (err.error instanceof Error) {
@@ -74,6 +75,7 @@ export class RequestsService {
     @Optional() @Inject(LocalStorageService) private ls?: ILocalStorageService,
   ) {
     this.clearLocalToken();
+    this.setBaseHeaders();
   }
 
   clearLocalToken() {
@@ -84,17 +86,29 @@ export class RequestsService {
     this.credentialsString = `username=${username}&password=${password}&grant_type=password`;
   }
 
+  setBaseHeaders(input?: { label: string, value: string }[]) {
+    let baseHeaders = new HttpHeaders();
+    if (input) {
+      input.forEach(h => baseHeaders = baseHeaders.set(h.label, h.value));
+    }
+    this.baseHeaders = baseHeaders;
+  }
+
+  private getBaseHeaders() {
+    return this.baseHeaders;
+  }
+
   clearCredentials() {
     this.setCredentials({username: '', password: ''});
     this.accessToken = null;
   }
 
-  set accessToken(token: string | null) {
+  private set accessToken(token: string | null) {
     this._accessToken = token;
     this.updateStoredToken(token);
   }
 
-  updateStoredToken(token) {
+  private updateStoredToken(token) {
     if (!this.ls) return;
     if (token) {
       this.ls.setString(this.apiConfig.localStorageKeys.accessToken, token);
@@ -103,12 +117,12 @@ export class RequestsService {
     }
   }
 
-  get accessToken(): string | null {
+  private get accessToken(): string | null {
     if (this._accessToken) return this._accessToken;
     this._accessToken = this.getStoredAccessToken();
   }
 
-  getStoredAccessToken(): string | null {
+  private getStoredAccessToken(): string | null {
     if (!this.ls) return null;
     const storedToken = this.ls.resolveString(this.apiConfig.localStorageKeys.accessToken);
     return storedToken === '' ? null : storedToken;
@@ -136,7 +150,7 @@ export class RequestsService {
   private async getAuthorizedRequestOptions () {
     const accessToken = await this.getAccessToken();
     return {
-      headers: new HttpHeaders()
+      headers: this.getBaseHeaders()
         .set('Authorization', `Bearer ${accessToken}`),
     };
   }
@@ -161,7 +175,7 @@ export class RequestsService {
 
   private makeApiCall(callType: CallType, fullUrl: string, requestData?: any, options: HttpClientRequestOptions = {}) {
     if (!options.headers) {
-      options.headers = new HttpHeaders();
+      options.headers = this.getBaseHeaders();
     }
 
     switch (callType) {
@@ -184,7 +198,7 @@ export class RequestsService {
   }
 
   makeFormApiCall(callType: CallType, fullUrl: string, requestData?: any): Promise<any> {
-    const options = {headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')};
+    const options = {headers: this.getBaseHeaders().set('Content-Type', 'application/x-www-form-urlencoded')};
     return new Promise((resolve, reject) => {
       const observable = this.makeApiCall(callType, fullUrl, requestData, options);
       this.resolveServerCallWithinPromise(observable, resolve, reject, callType, fullUrl);
