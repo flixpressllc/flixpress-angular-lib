@@ -60,21 +60,21 @@ export function canMoveDown(item: any, array: any[]): boolean {
 }
 
 export function moveUp(item: any, array: any[]) {
-  if (this.canMoveUp(item, array)) {
+  if (canMoveUp(item, array)) {
     const index = array.indexOf(item);
-    this.delete(item, array);
-    this.insertAfter(index - 1, item, array);
+    remove(item, array);
+    insertAfter(index - 1, item, array);
   }
 }
 
 export function moveDown(item: any, array: any[]) {
-  if (this.canMoveDown(item, array)) {
+  if (canMoveDown(item, array)) {
     const index = array.indexOf(item);
-    this.delete(item, array);
+    remove(item, array);
     if (index === array.length - 1) {
       array.push(item);
     } else {
-      this.insertAfter(index + 1, item, array);
+      insertAfter(index + 1, item, array);
     }
   }
 }
