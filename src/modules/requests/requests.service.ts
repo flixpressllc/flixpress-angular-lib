@@ -206,7 +206,8 @@ export class RequestsService {
   }
 
   async makeAuthorizedApiCall(callType: CallType, urlRoute: string, requestData?: any): Promise<ServerResponse> {
-    const finalUrl = `${this.apiConfig.apiRoot}/${urlRoute}`;
+    const urlRouteIsFullUrl = /^(https?:\/\/|\/)/.test(urlRoute);
+    const finalUrl = urlRouteIsFullUrl ? urlRoute : `${this.apiConfig.apiRoot}/${urlRoute}`;
     const options = await this.getAuthorizedRequestOptions();
     options.headers = options.headers.set('Content-Type', 'application/json;charset=utf-8');
 
