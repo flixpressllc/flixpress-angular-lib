@@ -8,8 +8,9 @@ import { OrderedListComponent } from './ordered-list.component';
   template:`
     <flixpress-ordered-list #underTest
       [items]="items"
+      orderBy="name"
     >
-      <ng-template let-character>
+      <ng-template #repeater let-character>
         {{ character.name }}
       </ng-template>
     </flixpress-ordered-list>
@@ -56,5 +57,9 @@ describe('OrderedListComponent', () => {
   it('should display each item passed in through a template', () => {
     expect(element.textContent).toContain("Mario")
     expect(element.textContent).toContain("Bowser")
+  })
+
+  it('should display each item sorted by given field', () => {
+    expect(element.textContent).toMatch(/Bowser[\s\S]*Mario/m)
   })
 });
