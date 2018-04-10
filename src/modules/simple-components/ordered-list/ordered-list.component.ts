@@ -1,19 +1,17 @@
 import { Component, OnInit, Input, ContentChild, TemplateRef, OnChanges, SimpleChanges } from '@angular/core';
 
-const SORT_BY_SELF = '-self-';
-
 @Component({
   selector: 'flixpress-ordered-list',
   templateUrl: './ordered-list.component.html',
   styleUrls: ['./ordered-list.component.css']
 })
 export class OrderedListComponent implements OnInit, OnChanges {
-  @Input() items: Array<any>;
+  @Input() items: Array<object>;
   @Input() orderBy: string | null;
   @ContentChild('repeater') repeater;
 
   private sorted = [];
-  private indexedItems: {index: number, item: any}[] = [];
+  private indexedItems: {index: number, item: object}[] = [];
 
   constructor() { }
 
@@ -52,8 +50,7 @@ export class OrderedListComponent implements OnInit, OnChanges {
     this.sorted = this.indexedItems.map(orig => orig.item)
   }
 
-  getSortableForItem(item: any): any {
-    if (this.orderBy === SORT_BY_SELF) return item;
+  getSortableForItem(item: object): any {
     return item[this.orderBy];
   }
 
