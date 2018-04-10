@@ -41,12 +41,16 @@ export class OrderedListComponent implements OnInit, OnChanges {
   }
 
   sort() {
-    if (!this.orderBy) return;
+    if (!this.orderBy || this.items.length < 1) return;
+
+    const compare = this.getSortFunction(
+      this.getSortableForItem(this.items[0])
+    )
 
     this.indexedItems.sort((a, b) => {
       const aSortable = this.getSortableForItem(a.item);
       const bSortable = this.getSortableForItem(b.item);
-      return this.minisort([aSortable, bSortable]);
+      return compare(aSortable, bSortable);
     })
 
     this.sorted = this.indexedItems.map(orig => orig.item)
@@ -56,35 +60,21 @@ export class OrderedListComponent implements OnInit, OnChanges {
     return item[this.orderBy];
   }
 
-  minisort(arr: [any, any]): sortReturn {
-    const [first, second] = arr;
-    let sortFn = this.getSortFunction(first);
-
-
-    arr.sort(sortFn);
-
-    if (arr[0] === first) {
-      return 0;
-    } else {
-      return 1;
+  getSortFunction(item: any): (a, b) => sortReturn {
+    if (item instanceof String && String.prototype.localeCompare) {
+      return (a, b) => a.localeCompare(b);
     }
-  }
 
-  getSortFunction(item: any): (a, b) => sortReturn | undefined  {
-    if (item instanceof Date) {
-      return (a, b) => {
-        if (a < b) {
-          return -1;
-        }
-        if (a === b) {
-          return 0;
-        }
-        if (a > b) {
-          return 1;
-        }
+    return (a, b) => {
+      if (a < b) {
+        return -1;
+      }
+      if (a === b) {
+        return 0;
+      }
+      if (a > b) {
+        return 1;
       }
     }
-
-    return undefined;
   }
 }
