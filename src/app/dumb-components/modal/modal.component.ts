@@ -5,7 +5,7 @@ import { ModalBase } from './modalbase';
 // import { fadeInAnimation, fadeOutAnimation } from '../../animations/animations';
 
 @Component({
-  selector: 'app-modal',
+  selector: 'flixpress-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
   // animations: [fadeInAnimation, fadeOutAnimation]

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
-  selector: 'app-animated-ellipsis',
+  selector: 'flixpress-animated-ellipsis',
   templateUrl: './animated-ellipsis.component.html',
   styleUrls: ['./animated-ellipsis.component.scss'],
 })

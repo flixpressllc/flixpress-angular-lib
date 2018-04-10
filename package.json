@@ -10,6 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
 
+    "package-dumb-components": "ng-packagr -p src/app/dumb-components/package.json",
     "package-requests": "ng-packagr -p src/modules/requests/package.json",
     "package-services": "ng-packagr -p src/app/dumb-services/package.json"
   },

@@ -1,8 +1,13 @@
 import { Component, OnInit, ContentChild, TemplateRef, Input, Output, EventEmitter } from '@angular/core';
 import * as arraysService from '../arrayHelpers';
 
+export interface IEmittedEvent {
+  data: any;
+  type: string;
+}
+
 @Component({
-  selector: 'app-sortable-container',
+  selector: 'flixpress-sortable-container',
   templateUrl: './sortable-container.component.html',
   styleUrls: ['./sortable-container.component.scss'],
 })
@@ -15,8 +20,8 @@ export class SortableContainerComponent implements OnInit {
   @Input() emptyMessage: string;
   @Input() allowDelete = false;
   @Input() allowSort = true;
-  @Output() onSortChange = new EventEmitter<EmittedEvent>();
-  @Output() onDeleteItem = new EventEmitter<EmittedEvent>();
+  @Output() onSortChange = new EventEmitter<IEmittedEvent>();
+  @Output() onDeleteItem = new EventEmitter<IEmittedEvent>();
 
   constructor() {}
 

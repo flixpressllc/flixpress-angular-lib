@@ -3,7 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 // import { heightAnimation } from '../../animations/animations';
 
 @Component({
-  selector: 'app-collapsible-panel',
+  selector: 'flixpress-collapsible-panel',
   templateUrl: './collapsible-panel.component.html',
   styleUrls: ['./collapsible-panel.component.scss'],
   // animations: [heightAnimation]

@@ -1,4 +1,4 @@
-import {Input, Output, EventEmitter, OnDestroy, AfterViewInit, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import { Input, Output, EventEmitter, OnDestroy, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
 
 const MODAL_OPEN_CLASS = ' __ModalOpen';
 
@@ -78,35 +78,5 @@ export abstract class ModalBase implements OnDestroy, AfterViewInit, OnChanges {
     if (document.body.className.indexOf(MODAL_OPEN_CLASS) < 0) return;
     const str = document.body.className;
     document.body.className = str.replace(MODAL_OPEN_CLASS, '');
-  }
-}
-
-export abstract class ModalSelectBase<T> extends ModalBase implements OnInit {
-  protected _selectedItem: T;
-  items: Array<T>;
-  protected selectedCallback: (selectedItem: T)  => void;
-
-  constructor() {
-    super();
-  }
-
-  ngOnInit() {
-    this.items = [];
-  }
-
-  protected select(selectedItem: T) {
-    this._selectedItem = selectedItem;
-    this.selectedCallback(this._selectedItem);
-    this.close();
-  }
-  /*
-  onSelected(callback: {(selectedItem:T):void}){
-    callback(this._selectedItem);
-    this.close();
-  }
-  */
-  openModal(callback: (selectedItem: T) => void) {
-    super.open();
-    this.selectedCallback = callback;
   }
 }
