@@ -2,6 +2,7 @@ import { AnimatedEllipsisComponent } from './animated-ellipsis/animated-ellipsis
 import { CollapsiblePanelComponent } from './collapsible-panel/collapsible-panel.component';
 import { ModalComponent } from './modal/modal.component';
 import { SortableContainerComponent } from './sortable-container/sortable-container.component';
+import { OrderedListComponent } from './ordered-list/ordered-list.component';
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -10,7 +11,8 @@ export {
   AnimatedEllipsisComponent,
   CollapsiblePanelComponent,
   ModalComponent,
-  SortableContainerComponent
+  SortableContainerComponent,
+  OrderedListComponent,
 };
 
 @NgModule({
@@ -19,13 +21,15 @@ export {
     AnimatedEllipsisComponent,
     CollapsiblePanelComponent,
     ModalComponent,
-    SortableContainerComponent
+    SortableContainerComponent,
+    OrderedListComponent,
   ],
   exports: [
     AnimatedEllipsisComponent,
     CollapsiblePanelComponent,
     ModalComponent,
-    SortableContainerComponent
+    SortableContainerComponent,
+    OrderedListComponent,
   ],
 })
 export class SimpleComponentsModule { }
