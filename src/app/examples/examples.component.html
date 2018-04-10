@@ -53,3 +53,38 @@
     Hi there. This is the modal box.
   </flixpress-modal>
 </section>
+
+<section>
+  <h2>Ordered list</h2>
+
+  <h3>By Name</h3>
+  <flixpress-ordered-list
+    [items]="players"
+    orderBy="name"
+  >
+    <ng-template let-player>
+      <div> {{player.name}}: {{player.number}} </div>
+    </ng-template>
+  </flixpress-ordered-list>
+
+  <h3>By Number</h3>
+  <flixpress-ordered-list
+    [items]="players"
+    orderBy="number"
+  >
+    <ng-template let-player>
+      <div> {{player.name}}: {{player.number}} </div>
+    </ng-template>
+  </flixpress-ordered-list>
+
+  <h3>By Number, reversed</h3>
+  <flixpress-ordered-list
+    [items]="players"
+    orderBy="number"
+    direction="desc"
+  >
+    <ng-template let-player>
+      <div> {{player.name}}: {{player.number}} </div>
+    </ng-template>
+  </flixpress-ordered-list>
+</section>

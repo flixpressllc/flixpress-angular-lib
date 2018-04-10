@@ -9,6 +9,7 @@ import { OrderedListComponent } from './ordered-list.component';
     <flixpress-ordered-list #underTest
       [items]="items"
       [orderBy]="orderBy"
+      [direction]="direction"
     >
       <ng-template let-character>
         {{ character.name }}
@@ -23,6 +24,7 @@ class HostComponent {
     {name: "Bowser", status: "villain"},
   ];
   orderBy: string = "name"
+  direction: string = null;
 }
 
 describe('OrderedListComponent', () => {
@@ -94,5 +96,16 @@ describe('OrderedListComponent', () => {
     host.orderBy = 'num';
     fixture.detectChanges();
     expect(element.textContent).toMatch(/First[\s\S]*Second/)
+  })
+
+  it('should sort directionally', () => {
+    host.items = [
+      {name: 'Second', num: 2001},
+      {name: 'First', num: 2000},
+    ]
+    host.orderBy = 'num';
+    host.direction = 'descending';
+    fixture.detectChanges();
+    expect(element.textContent).toMatch(/Second[\s\S]*First/)
   })
 });

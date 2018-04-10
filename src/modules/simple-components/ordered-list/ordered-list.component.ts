@@ -10,6 +10,7 @@ type sortReturn = -1 | 0 | 1;
 export class OrderedListComponent implements OnInit, OnChanges {
   @Input() items: Array<object>;
   @Input() orderBy: string | null;
+  @Input() direction: string;
   @ContentChild(TemplateRef) repeater;
 
   private sorted = [];
@@ -53,7 +54,17 @@ export class OrderedListComponent implements OnInit, OnChanges {
       return compare(aSortable, bSortable);
     })
 
+    if (this.shouldReverse()) {
+      this.indexedItems.reverse();
+    }
+
     this.sorted = this.indexedItems.map(orig => orig.item)
+  }
+
+  shouldReverse(): boolean {
+    if (!this.direction) return false;
+    const descMatcher = /^desc/i;
+    return descMatcher.test(this.direction);
   }
 
   getSortableForItem(item: object): any {
