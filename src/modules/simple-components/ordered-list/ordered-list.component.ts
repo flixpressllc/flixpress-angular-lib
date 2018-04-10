@@ -10,7 +10,7 @@ type sortReturn = -1 | 0 | 1;
 export class OrderedListComponent implements OnInit, OnChanges {
   @Input() items: Array<object>;
   @Input() orderBy: string | null;
-  @ContentChild('repeater') repeater;
+  @ContentChild(TemplateRef) repeater;
 
   private sorted = [];
   private indexedItems: {index: number, item: object}[] = [];

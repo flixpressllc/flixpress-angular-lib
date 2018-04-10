@@ -10,7 +10,7 @@ import { OrderedListComponent } from './ordered-list.component';
       [items]="items"
       [orderBy]="orderBy"
     >
-      <ng-template #repeater let-character>
+      <ng-template let-character>
         {{ character.name }}
       </ng-template>
     </flixpress-ordered-list>
