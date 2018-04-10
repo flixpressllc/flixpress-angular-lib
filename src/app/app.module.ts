@@ -41,16 +41,29 @@ const routes: Routes = [
   },
 ];
 
+const declarations = [
+  FileUploadButtonComponent,
+  ImageCropperComponent,
+  ImageUploadButtonComponent,
+  DynamicHostDirective,
+];
+const imports = [
+  TeleprompterModule,
+  SimpleComponentsModule,
+];
+const providers = [
+  UploadFileService,
+  RequestsService,
+  LocalStorageService,
+];
+
 @NgModule({
   declarations: [
     AppComponent,
-    FileUploadButtonComponent,
-    ImageCropperComponent,
-    ImageUploadButtonComponent,
-    DynamicHostDirective,
     TeleprompterRouteComponent,
     RouteNotFoundComponent,
     ExamplesComponent,
+    ...declarations,
   ],
   entryComponents: [
     ImageCropperComponent,
@@ -58,15 +71,20 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     HttpClientModule,
-    TeleprompterModule,
-    SimpleComponentsModule,
     RouterModule.forRoot(routes, {useHash: false}),
+    ...imports,
   ],
   providers: [
-    UploadFileService,
-    RequestsService,
-    LocalStorageService,
+    ...providers,
   ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
+
+// Just the things we may need to test that
+// the examples do not explode
+export {
+  declarations,
+  imports,
+  providers,
+}

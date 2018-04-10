@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ImageUploadButtonComponent } from './image-upload-button.component';
 
-describe('ImageUploadButtonComponent', () => {
+xdescribe('ImageUploadButtonComponent', () => {
   let component: ImageUploadButtonComponent;
   let fixture: ComponentFixture<ImageUploadButtonComponent>;
 

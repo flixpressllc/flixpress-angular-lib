@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ExamplesComponent } from './examples.component';
+import { declarations, imports, providers } from '../app.module';
+import { ExamplesComponent } from './examples.component'
 
 describe('ExamplesComponent', () => {
   let component: ExamplesComponent;
@@ -8,7 +9,9 @@ describe('ExamplesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ExamplesComponent ],
+      declarations: [ ExamplesComponent, ...declarations ],
+      imports,
+      providers,
     })
     .compileComponents();
   }));
@@ -19,7 +22,7 @@ describe('ExamplesComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should not explode', () => {
     expect(component).toBeTruthy();
   });
 });
