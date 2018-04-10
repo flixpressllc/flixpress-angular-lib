@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-ordered-list',
+  selector: 'flixpress-ordered-list',
   templateUrl: './ordered-list.component.html',
   styleUrls: ['./ordered-list.component.css']
 })
