@@ -8,7 +8,7 @@ import { OrderedListComponent } from './ordered-list.component';
   template:`
     <flixpress-ordered-list #underTest
       [items]="items"
-      orderBy="name"
+      [orderBy]="orderBy"
     >
       <ng-template #repeater let-character>
         {{ character.name }}
@@ -22,6 +22,7 @@ class HostComponent {
     {name: "Mario", status: "hero"},
     {name: "Bowser", status: "villain"},
   ];
+  orderBy: string = "name"
 }
 
 describe('OrderedListComponent', () => {
@@ -60,6 +61,18 @@ describe('OrderedListComponent', () => {
   })
 
   it('should display each item sorted by given field', () => {
-    expect(element.textContent).toMatch(/Bowser[\s\S]*Mario/m)
+    expect(element.textContent).toMatch(/Bowser[\s\S]*Mario/)
+  })
+
+  it('should re-sort when the property changes', () => {
+    host.orderBy = "status"
+    fixture.detectChanges();
+    expect(element.textContent).toMatch(/Mario[\s\S]*Bowser/)
+  })
+
+  it('should re-sort when the items change', () => {
+    host.items = [{name: 'Peach', status: 'ruler'}].concat(host.items)
+    fixture.detectChanges();
+    expect(element.textContent).toMatch(/Bowser[\s\S]*Mario[\s\S]*Peach/)
   })
 });

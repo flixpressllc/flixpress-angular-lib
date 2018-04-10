@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ContentChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, ContentChild, TemplateRef, OnChanges, SimpleChanges } from '@angular/core';
 
 const SORT_BY_SELF = '-self-';
 
@@ -7,7 +7,7 @@ const SORT_BY_SELF = '-self-';
   templateUrl: './ordered-list.component.html',
   styleUrls: ['./ordered-list.component.css']
 })
-export class OrderedListComponent implements OnInit {
+export class OrderedListComponent implements OnInit, OnChanges {
   @Input() items: Array<any>;
   @Input() orderBy: string | null;
   @ContentChild('repeater') repeater;
@@ -20,6 +20,19 @@ export class OrderedListComponent implements OnInit {
   ngOnInit() {
     this.setup();
     this.sort();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    for (let prop in changes) {
+      const change = changes[prop];
+      const valuesDiffer = change.previousValue !== change.currentValue;
+
+      if (prop === 'items' && valuesDiffer) {
+        this.ngOnInit();
+      } else {
+        this.sort();
+      }
+    }
   }
 
   setup() {
