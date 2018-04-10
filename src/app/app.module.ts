@@ -10,14 +10,11 @@ import { UploadFileService } from './services/upload-file.service';
 import { DynamicHostDirective } from './directives/dynamic-host.directive';
 
 import { TeleprompterModule} from '../modules/teleprompter';
+import { SimpleComponentsModule } from '../modules/simple-components';
 
-import { AnimatedEllipsisComponent } from './dumb-components/animated-ellipsis/animated-ellipsis.component';
 import { FileUploadButtonComponent } from './components/file-upload-button/file-upload-button.component';
 import { ImageCropperComponent } from './components/image-cropper/image-cropper.component';
 import { ImageUploadButtonComponent } from './components/image-upload-button/image-upload-button.component';
-import { ModalComponent } from './dumb-components/modal/modal.component';
-import { SortableContainerComponent } from './dumb-components/sortable-container/sortable-container.component';
-import { CollapsiblePanelComponent } from './dumb-components/collapsible-panel/collapsible-panel.component';
 import { RequestsService } from '../modules/requests';
 import { LocalStorageService } from './dumb-services/local-storage.service';
 import { TeleprompterRouteComponent } from './routes/teleprompter-route/teleprompter-route.component';
@@ -47,13 +44,9 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    AnimatedEllipsisComponent,
     FileUploadButtonComponent,
     ImageCropperComponent,
     ImageUploadButtonComponent,
-    ModalComponent,
-    SortableContainerComponent,
-    CollapsiblePanelComponent,
     DynamicHostDirective,
     TeleprompterRouteComponent,
     RouteNotFoundComponent,
@@ -66,6 +59,7 @@ const routes: Routes = [
     BrowserModule,
     HttpClientModule,
     TeleprompterModule,
+    SimpleComponentsModule,
     RouterModule.forRoot(routes, {useHash: false}),
   ],
   providers: [

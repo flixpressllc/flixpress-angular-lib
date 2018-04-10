@@ -1,3 +1,55 @@
 <!-- Add any components you want to work with here in this file. -->
 
-<div>This should display</div>
+<section>
+  <h2>Animated Ellipsis:</h2>
+  Thinking<flixpress-animated-ellipsis></flixpress-animated-ellipsis>
+</section>
+
+<section>
+  <h2>Collapsible Panel</h2>
+
+  <flixpress-collapsible-panel title="Optional title and starting open">
+    Some text in here.
+  </flixpress-collapsible-panel>
+
+  <flixpress-collapsible-panel
+    title="Starting closed"
+    [isExpanded]="false"
+  >
+    Some text in here.
+  </flixpress-collapsible-panel>
+
+  <flixpress-collapsible-panel
+    title="Un-closable"
+    [forceOpen]="true"
+  >
+    You cannot close this one
+  </flixpress-collapsible-panel>
+</section>
+
+<section>
+  <h2>Sortable Container</h2>
+  <div class="note">
+    Font Awesome must be available for the arrows to appear. That is why they are missing.
+  </div>
+  <flixpress-sortable-container
+    [items]="players"
+    directEdit="true"
+  >
+    <ng-template let-player>
+      {{player.number}}: {{player.name}}, {{player.position}}
+    </ng-template>
+  </flixpress-sortable-container>
+</section>
+
+<section>
+  <h2>Modal</h2>
+  <button (click)="openModal()">Open the modal</button>
+  <flixpress-modal
+    [isOpen]="modalIsOpen"
+    (onClose)="closeModal()"
+    title="A Modal"
+  >
+    Hi there. This is the modal box.
+  </flixpress-modal>
+</section>

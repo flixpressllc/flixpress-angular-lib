@@ -10,9 +10,9 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CollapsiblePanelComponent implements OnInit {
 
-  @Input('is-expanded') isExpanded = true;
-  @Input('force-open') forceOpen = false;
-  @Input('title') title: string;
+  @Input() isExpanded = true;
+  @Input() forceOpen = false;
+  @Input() title: string;
 
   expandedIndicator: string;
   private _indicateIsExpanded = ' - ';

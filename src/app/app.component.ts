@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import * as arraysService from './dumb-components/arrayHelpers';
 
 @Component({
   selector: 'app-root',
