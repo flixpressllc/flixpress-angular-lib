@@ -7,11 +7,20 @@ import { OrderedListComponent } from './ordered-list.component';
   selector: 'app-host',
   template:`
     <flixpress-ordered-list #underTest
-    ></flixpress-ordered-list>
+      [items]="items"
+    >
+      <ng-template let-character>
+        {{ character.name }}
+      </ng-template>
+    </flixpress-ordered-list>
   `,
 })
 class HostComponent {
   @ViewChild('underTest') underTest: OrderedListComponent
+  items = [
+    {name: "Mario", status: "hero"},
+    {name: "Bowser", status: "villain"},
+  ];
 }
 
 describe('OrderedListComponent', () => {
@@ -43,4 +52,9 @@ describe('OrderedListComponent', () => {
     expect(component instanceof OrderedListComponent).toBe(true);
     expect(host instanceof HostComponent).toBe(true);
   });
+
+  it('should display each item passed in through a template', () => {
+    expect(element.textContent).toContain("Mario")
+    expect(element.textContent).toContain("Bowser")
+  })
 });
