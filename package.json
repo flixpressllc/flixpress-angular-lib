@@ -9,10 +9,27 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-
-    "package-dumb-components": "ng-packagr -p src/modules/simple-components/package.json",
+    "package-simple-components": "ng-packagr -p src/modules/simple-components/package.json",
     "package-requests": "ng-packagr -p src/modules/requests/package.json",
-    "package-services": "ng-packagr -p src/app/dumb-services/package.json"
+    "package-dumb-services": "ng-packagr -p src/app/dumb-services/package.json",
+    "watch": "npm-watch"
+  },
+  "watch": {
+    "package-requests": {
+      "patterns": [ "src/modules/requests" ],
+      "extensions": "ts,html,md,scss",
+      "ignore": "src/modules/requests/dist"
+    },
+    "package-simple-components": {
+      "patterns": [ "src/modules/simple-components" ],
+      "extensions": "ts,html,md,scss",
+      "ignore": "src/modules/simple-components/dist"
+    },
+    "package-dumb-services": {
+      "patterns": [ "src/app/dumb-services" ],
+      "extensions": "ts,html,md,scss",
+      "ignore": "src/app/dumb-services/dist"
+    }
   },
   "private": true,
   "dependencies": {
@@ -50,6 +67,7 @@
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
     "ng-packagr": "^2.2.0",
+    "npm-watch": "^0.3.0",
     "protractor": "5.2.2",
     "ts-node": "4.1.0",
     "tslint": "5.8.0",
