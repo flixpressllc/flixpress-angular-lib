@@ -15,14 +15,14 @@ import { PageScrollService, PageScrollInstance, PageScrollOptions} from 'ngx-pag
 import { DOCUMENT } from '@angular/common';
 import { Subscription } from 'rxjs/Subscription';
 
-type PrompterState = 'done' | 'prompting' | 'ready' | 'interrupted';
+export type PrompterState = 'done' | 'prompting' | 'ready' | 'interrupted';
 
 @Component({
-  selector: 'app-teleprompter',
+  selector: 'flix-teleprompter', // tslint:disable-line component-selector
   templateUrl: './teleprompter.component.html',
   styleUrls: ['./teleprompter.component.scss'],
 })
-export class TeleprompterComponent implements OnInit, OnDestroy, OnChanges {
+export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChanges {
   @Input() copy = 'You\'ll want to provide some text here so that you can test scrolling. Do so by passing it in as [copy] to this component. You will also need to pass in [scrollTime] as milliseconds';
   @Input() manualScrollButtonText = 'Start Scrolling';
   @Input() scrollDuration = 8000;

@@ -11,6 +11,7 @@
     "e2e": "ng e2e",
     "package-simple-components": "ng-packagr -p src/modules/simple-components/package.json",
     "package-requests": "ng-packagr -p src/modules/requests/package.json",
+    "package-teleprompter": "ng-packagr -p src/modules/teleprompter/package.json",
     "package-dumb-services": "ng-packagr -p src/app/dumb-services/package.json",
     "watch": "npm-watch"
   },
@@ -19,6 +20,11 @@
       "patterns": [ "src/modules/requests" ],
       "extensions": "ts,html,md,scss",
       "ignore": "src/modules/requests/dist"
+    },
+    "package-teleprompter": {
+      "patterns": [ "src/modules/teleprompter" ],
+      "extensions": "ts,html,md,scss",
+      "ignore": "src/modules/teleprompter/dist"
     },
     "package-simple-components": {
       "patterns": [ "src/modules/simple-components" ],

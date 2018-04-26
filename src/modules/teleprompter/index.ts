@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
-import { TeleprompterComponent } from './teleprompter.component';
+import { FlixpressTeleprompterComponent } from './teleprompter.component';
 
+export { FlixpressTeleprompterComponent };
 
 @NgModule({
   imports: [
@@ -10,13 +11,11 @@ import { TeleprompterComponent } from './teleprompter.component';
     NgxPageScrollModule,
   ],
   declarations: [
-    TeleprompterComponent,
+    FlixpressTeleprompterComponent,
   ],
   providers: [],
   exports: [
-    TeleprompterComponent,
+    FlixpressTeleprompterComponent,
   ],
 })
-export class TeleprompterModule { }
-
-export { TeleprompterComponent };
+export class FlixpressTeleprompterModule { }
