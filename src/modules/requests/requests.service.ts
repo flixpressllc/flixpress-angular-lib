@@ -4,6 +4,11 @@ import { Observable } from 'rxjs/Observable';
 
 export type CallType = 'get' | 'put' | 'post' | 'delete';
 export type ServerResponse = any;
+export enum LogLevel {
+  Silent = 1,
+  Normal,
+  Verbose,
+}
 
 export interface ApiConfig {
   apiRoot: string;
@@ -12,6 +17,7 @@ export interface ApiConfig {
     accessToken: string;
     [x: string]: string;
   };
+  logLevel?: LogLevel;
 }
 
 export interface ILocalStorageService {
@@ -56,8 +62,10 @@ export class RequestsService {
   private credentialsString: string;
   private _accessToken: string;
   private baseHeaders: HttpHeaders;
+  public logLevel: LogLevel = isDevMode() ? LogLevel.Normal : LogLevel.Silent;
 
-  private static handleRequestError(err: HttpErrorResponse) {
+  private handleRequestError(err: HttpErrorResponse) {
+    if (this.logLevel === LogLevel.Silent) { return; }
     if (err.error instanceof Error) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', err.error.message);
@@ -74,8 +82,15 @@ export class RequestsService {
     @Inject(API_CONFIG) private apiConfig: ApiConfig,
     @Optional() @Inject(LocalStorageService) private ls?: ILocalStorageService,
   ) {
+    this.setLogLevel(apiConfig.logLevel);
     this.clearLocalToken();
     this.setBaseHeaders();
+  }
+
+  setLogLevel(level?: LogLevel) {
+    if (level) {
+      this.logLevel = level;
+    }
   }
 
   clearLocalToken() {
@@ -138,7 +153,7 @@ export class RequestsService {
         this.makeFormApiCall('post', this.apiConfig.tokenEndpoint, this.credentialsString).then((res: AccessTokenResponse) => {
           resolve(this.accessToken = res.access_token);
         }, (err) => {
-          RequestsService.handleRequestError(err);
+          this.handleRequestError(err);
           reject(err);
         });
       } else {
@@ -158,7 +173,7 @@ export class RequestsService {
   private resolveServerCallWithinPromise(serverCall: Observable<any>, resolve, reject, callType, url) {
     const subscription = serverCall.subscribe(
       (data) => {
-        if (isDevMode()) {
+        if (this.logLevel === LogLevel.Verbose) {
           console.log(`${callType.toUpperCase()} call to ${url} successfully returned:`);
           console.log(data);
         }
@@ -166,7 +181,7 @@ export class RequestsService {
         subscription.unsubscribe();
       },
       (error) => {
-        RequestsService.handleRequestError(error);
+        this.handleRequestError(error);
         reject(error);
         subscription.unsubscribe();
       },
