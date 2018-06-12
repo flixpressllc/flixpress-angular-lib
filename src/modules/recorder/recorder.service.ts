@@ -12,6 +12,25 @@ enum RecordingState {
   permissionGranted,
 }
 
+/**
+ * Options for the RecordRTC module's ctor. Setting any of these
+ * override any default setting in Recorder.Service
+ *
+ * @property disableLogs - default: !isDevMode()
+ */
+export interface RecordRtcOptions {
+  disableLogs?: boolean;
+  mimeType?: string;
+  recorderType?:
+    RecordRTC['MediaStreamRecorder'] |
+    RecordRTC['StereoAudioRecorder'];
+  bufferSize?: number;
+  sampleRate?: number;
+  videoBitsPerSecond?: number;
+  audioBitsPerSecond?: number;
+  [p: string]: any;
+}
+
 export interface RecordSettings {
   recordVideo: boolean;
   recordAudio: boolean;
@@ -121,23 +140,22 @@ export class RecorderService {
 
   private prepRecorder() {
     if (this.recordingState.value === RecordingState.idle) { return; }
-    const generalOptions = {
+    const generalOptions: RecordRtcOptions = {
       disableLogs: !isDevMode(),
       audioBitsPerSecond: 128000, // max allowable
     };
-    const videoOptions = {
-      mimeType: 'video/webm\;codecs=h264',
+    const videoOptions: RecordRtcOptions  = {
+      mimeType: 'video/webm;codecs=h264',
       videoBitsPerSecond: 15000000,
     };
-    const audioOptions = {
+    const audioOptions: RecordRtcOptions  = {
       recorderType: RecordRTC.StereoAudioRecorder,
       mimeType: 'audio/ogg',
       bufferSize: 4096, // buffer only used with StereoAudioRecorder
-      audioBitsPerSecond: 128000,
-      sampleRate: 48000,
+      sampleRate: 48000, // only used with StereoAudioRecorder
     };
-    const specificOptions = (this.recordSettings.recordVideo) ? videoOptions : audioOptions;
-    const settings = Object.assign(generalOptions, specificOptions);
+    const specificOptions: RecordRtcOptions  = (this.recordSettings.recordVideo) ? videoOptions : audioOptions;
+    const settings: RecordRtcOptions = Object.assign(generalOptions, specificOptions);
     this.recorder = new RecordRTC(this.stream, settings);
   }
 
