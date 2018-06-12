@@ -1,4 +1,4 @@
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable, isDevMode, Optional, Inject, InjectionToken } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import RecordRTC from 'recordrtc/RecordRTC.min';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -12,6 +12,16 @@ enum RecordingState {
   permissionGranted,
 }
 
+export interface RecordSettings {
+  recordType: 'audio' | 'video';
+}
+
+const defaultRecordSettings: RecordSettings = {
+  recordType: 'video',
+};
+
+export const RECORD_SETTINGS = new InjectionToken<Partial<RecordSettings>>('optional recorder.service settings');
+
 type DataUrl = string;
 export interface RecordingData { url: SafeUrl; blob: Blob; dataUrl: DataUrl; }
 
@@ -20,12 +30,16 @@ export class RecorderService {
   private stream: MediaStream = null;
   private recorder: RecordRTC;
   private recordingState = new BehaviorSubject(RecordingState.awaitingPermission);
+  private recordSettings: RecordSettings;
 
   public lastSuccessfulRecording: RecordingData | null = null;
 
   constructor(
     private sanitizer: DomSanitizer,
-  ) { }
+    @Optional() @Inject(RECORD_SETTINGS) private partialRecordSettings: Partial<RecordSettings> = {},
+  ) {
+    this.recordSettings = Object.assign({}, defaultRecordSettings, partialRecordSettings);
+  }
 
   async setup(): Promise<MediaStream | false> {
     if (await this.setStream()) {
