@@ -13,11 +13,13 @@ enum RecordingState {
 }
 
 export interface RecordSettings {
-  recordType: 'audio' | 'video';
+  recordVideo: boolean;
+  recordAudio: boolean;
 }
 
 const defaultRecordSettings: RecordSettings = {
-  recordType: 'video',
+  recordVideo: true,
+  recordAudio: true,
 };
 
 export const RECORD_SETTINGS = new InjectionToken<Partial<RecordSettings>>('optional recorder.service settings');
@@ -27,6 +29,12 @@ export interface RecordingData { url: SafeUrl; blob: Blob; dataUrl: DataUrl; }
 
 @Injectable()
 export class RecorderService {
+  private videoConstraints: MediaStreamConstraints['video'] = {
+    width: 1920,
+    height: 1080,
+    // frameRate: { max: 30 }, // this line kills the quality in Chrome...
+  };
+  private audioConstraints: MediaStreamConstraints['audio'] = true;
   private stream: MediaStream = null;
   private recorder: RecordRTC;
   private recordingState = new BehaviorSubject(RecordingState.awaitingPermission);
@@ -104,15 +112,11 @@ export class RecorderService {
   }
 
   download(): void {
-    if (this.useVideo()) {
+    if (this.recordSettings.recordVideo) {
       this.recorder.save('video.webm');
     } else {
       this.recorder.save('audio.wav');
     }
-  }
-
-  private useVideo() {
-    return true;
   }
 
   private prepRecorder() {
@@ -132,21 +136,16 @@ export class RecorderService {
       audioBitsPerSecond: 128000,
       sampleRate: 48000,
     };
-    const specificOptions = (this.useVideo()) ? videoOptions : audioOptions;
+    const specificOptions = (this.recordSettings.recordVideo) ? videoOptions : audioOptions;
     const settings = Object.assign(generalOptions, specificOptions);
     this.recorder = new RecordRTC(this.stream, settings);
   }
 
   private async setStream(): Promise<boolean> {
     if (!!this.stream) { return true; }
-    const videoConstraints = {
-      width: 1920,
-      height: 1080,
-      // frameRate: { max: 30 }, // this line kills the quality in Chrome...
-    };
     const mediaConstraints: MediaStreamConstraints = {
-      video: this.useVideo() ? videoConstraints : false,
-      audio: true,
+      video: this.recordSettings.recordVideo ? this.videoConstraints : false,
+      audio: this.recordSettings.recordAudio ? this.audioConstraints : false,
     };
     try {
       this.stream = await navigator.mediaDevices.getUserMedia(mediaConstraints);
