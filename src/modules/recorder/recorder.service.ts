@@ -34,11 +34,20 @@ export interface RecordRtcOptions {
 export interface RecordSettings {
   recordVideo: boolean;
   recordAudio: boolean;
+  videoConstraints: MediaStreamConstraints['video'];
+  audioConstraints: MediaStreamConstraints['video'];
+  rtcOverrides?: object;
 }
 
 const defaultRecordSettings: RecordSettings = {
   recordVideo: true,
   recordAudio: true,
+  videoConstraints: {
+    width: 1920,
+    height: 1080,
+    // frameRate: { max: 30 }, // this line kills the quality in Chrome...
+  },
+  audioConstraints: true,
 };
 
 export const RECORD_SETTINGS = new InjectionToken<Partial<RecordSettings>>('optional recorder.service settings');
@@ -48,22 +57,39 @@ export interface RecordingData { url: SafeUrl; blob: Blob; dataUrl: DataUrl; }
 
 @Injectable()
 export class RecorderService {
-  private videoConstraints: MediaStreamConstraints['video'] = {
-    width: 1920,
-    height: 1080,
-    // frameRate: { max: 30 }, // this line kills the quality in Chrome...
-  };
-  private audioConstraints: MediaStreamConstraints['audio'] = true;
   private stream: MediaStream = null;
   private recorder: RecordRTC;
   private recordingState = new BehaviorSubject(RecordingState.awaitingPermission);
   private recordSettings: RecordSettings;
 
+  private get recordRtcOptions(): RecordRtcOptions {
+    const generalOptions: RecordRtcOptions = {
+      disableLogs: !isDevMode(),
+      audioBitsPerSecond: 128000, // max allowable
+      videoBitsPerSecond: 15000000,
+      bufferSize: 4096, // only used with StereoAudioRecorder
+      sampleRate: 48000, // only used with StereoAudioRecorder
+    };
+    const videoOptions: RecordRtcOptions = {
+      mimeType: 'video/webm;codecs=h264',
+    };
+    const audioOptions: RecordRtcOptions = {
+      recorderType: RecordRTC.StereoAudioRecorder,
+      mimeType: 'audio/ogg',
+    };
+    const specificOptions: RecordRtcOptions = (this.recordSettings.recordVideo) ? videoOptions : audioOptions;
+    return Object.assign(
+      generalOptions,
+      specificOptions,
+      this.recordSettings.rtcOverrides,
+    );
+  }
+
   public lastSuccessfulRecording: RecordingData | null = null;
 
   constructor(
     private sanitizer: DomSanitizer,
-    @Optional() @Inject(RECORD_SETTINGS) private partialRecordSettings: Partial<RecordSettings> = {},
+    @Optional() @Inject(RECORD_SETTINGS) partialRecordSettings: Partial<RecordSettings> = {},
   ) {
     this.recordSettings = Object.assign({}, defaultRecordSettings, partialRecordSettings);
   }
@@ -140,30 +166,14 @@ export class RecorderService {
 
   private prepRecorder() {
     if (this.recordingState.value === RecordingState.idle) { return; }
-    const generalOptions: RecordRtcOptions = {
-      disableLogs: !isDevMode(),
-      audioBitsPerSecond: 128000, // max allowable
-    };
-    const videoOptions: RecordRtcOptions  = {
-      mimeType: 'video/webm;codecs=h264',
-      videoBitsPerSecond: 15000000,
-    };
-    const audioOptions: RecordRtcOptions  = {
-      recorderType: RecordRTC.StereoAudioRecorder,
-      mimeType: 'audio/ogg',
-      bufferSize: 4096, // buffer only used with StereoAudioRecorder
-      sampleRate: 48000, // only used with StereoAudioRecorder
-    };
-    const specificOptions: RecordRtcOptions  = (this.recordSettings.recordVideo) ? videoOptions : audioOptions;
-    const settings: RecordRtcOptions = Object.assign(generalOptions, specificOptions);
-    this.recorder = new RecordRTC(this.stream, settings);
+    this.recorder = new RecordRTC(this.stream, this.recordRtcOptions);
   }
 
   private async setStream(): Promise<boolean> {
     if (!!this.stream) { return true; }
     const mediaConstraints: MediaStreamConstraints = {
-      video: this.recordSettings.recordVideo ? this.videoConstraints : false,
-      audio: this.recordSettings.recordAudio ? this.audioConstraints : false,
+      video: this.recordSettings.recordVideo ? this.recordSettings.videoConstraints : false,
+      audio: this.recordSettings.recordAudio ? this.recordSettings.audioConstraints : false,
     };
     try {
       this.stream = await navigator.mediaDevices.getUserMedia(mediaConstraints);
