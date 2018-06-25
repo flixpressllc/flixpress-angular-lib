@@ -5,9 +5,10 @@ import { VideoRecordingMonitorComponent } from './components/video-recording-mon
 
 export {
   VideoRecordingMonitorComponent,
-  RecorderService,
   RecordingOptions,
 };
+
+export * from './recorder.service';
 
 @NgModule({
   imports: [
