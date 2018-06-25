@@ -3,11 +3,11 @@ import { RecorderService } from '../../recorder.service';
 import { SafeUrl } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-record-rtc',
-  templateUrl: './record-rtc.component.html',
-  styleUrls: ['./record-rtc.component.scss'],
+  selector: 'flix-video-recording-monitor', // tslint:disable-line component-selector
+  templateUrl: './video-recording-monitor.component.html',
+  styleUrls: ['./video-recording-monitor.component.scss'],
 })
-export class RecordRTCComponent implements AfterViewInit, OnDestroy {
+export class VideoRecordingMonitorComponent implements AfterViewInit, OnDestroy {
 
   private stream: MediaStream;
 
