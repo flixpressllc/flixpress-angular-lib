@@ -1,12 +1,12 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RecorderService, RecordSettings, RECORD_SETTINGS } from './recorder.service';
+import { RecorderService, RecordingOptions, RECORD_SETTINGS } from './recorder.service';
 import { VideoRecordingMonitorComponent } from './components/video-recording-monitor/video-recording-monitor.component';
 
 export {
   VideoRecordingMonitorComponent,
   RecorderService,
-  RecordSettings,
+  RecordingOptions,
 };
 
 @NgModule({
@@ -21,7 +21,7 @@ export {
   ],
 })
 export class RecorderModule {
-  static forRoot(recordSettings?: RecordSettings): ModuleWithProviders {
+  static forRoot(recordSettings?: RecordingOptions): ModuleWithProviders {
     return {
       ngModule: RecorderModule,
       providers: [

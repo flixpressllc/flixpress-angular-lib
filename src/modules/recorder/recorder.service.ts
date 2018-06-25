@@ -50,9 +50,11 @@ const defaultRecordSettings: RecordSettings = {
   audioConstraints: true,
 };
 
-export const RECORD_SETTINGS = new InjectionToken<Partial<RecordSettings>>('optional recorder.service settings');
+export type RecordingOptions = Partial<RecordSettings>;
 
-type DataUrl = string;
+export const RECORD_SETTINGS = new InjectionToken<RecordingOptions>('optional recorder.service settings');
+
+export type DataUrl = string;
 export interface RecordingData { url: SafeUrl; blob: Blob; dataUrl: DataUrl; }
 
 @Injectable()
@@ -89,7 +91,7 @@ export class RecorderService {
 
   constructor(
     private sanitizer: DomSanitizer,
-    @Optional() @Inject(RECORD_SETTINGS) partialRecordSettings: Partial<RecordSettings> = {},
+    @Optional() @Inject(RECORD_SETTINGS) partialRecordSettings: any,
   ) {
     this.recordSettings = Object.assign({}, defaultRecordSettings, partialRecordSettings);
   }
