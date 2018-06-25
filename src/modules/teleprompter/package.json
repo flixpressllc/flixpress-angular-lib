@@ -24,7 +24,7 @@
   },
   "dependencies": {
   },
-  "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
+  "$schema": "../../../node_modules/ng-packagr/package.schema.json",
   "ngPackage": {
     "lib": {
       "entryFile": "public_api.ts"
