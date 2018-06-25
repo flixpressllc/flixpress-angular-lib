@@ -9,6 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "package-recorder": "ng-packagr -p src/modules/recorder/package.json",
     "package-simple-components": "ng-packagr -p src/modules/simple-components/package.json",
     "package-requests": "ng-packagr -p src/modules/requests/package.json",
     "package-teleprompter": "ng-packagr -p src/modules/teleprompter/package.json",
@@ -16,6 +17,13 @@
     "watch": "npm-watch"
   },
   "watch": {
+    "package-recorder": {
+      "patterns": [
+        "src/modules/recorder"
+      ],
+      "extensions": "ts,html,md,scss",
+      "ignore": "src/modules/recorder/dist"
+    },
     "package-requests": {
       "patterns": [
         "src/modules/requests"
