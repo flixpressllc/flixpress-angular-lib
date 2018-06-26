@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, OnDestroy, isDevMode } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnDestroy, Input } from '@angular/core';
 import { RecorderService } from '../../recorder.service';
 import { SafeUrl } from '@angular/platform-browser';
 
@@ -8,6 +8,7 @@ import { SafeUrl } from '@angular/platform-browser';
   styleUrls: ['./video-recording-monitor.component.scss'],
 })
 export class VideoRecordingMonitorComponent implements AfterViewInit, OnDestroy {
+  @Input() recordAudio = true;
 
   private stream: MediaStream;
 
@@ -25,7 +26,7 @@ export class VideoRecordingMonitorComponent implements AfterViewInit, OnDestroy 
   }
 
   async setup() {
-    const stream = await this.recorder.setup();
+    const stream = await this.recorder.setup({recordVideo: true, recordAudio: this.recordAudio});
     if (stream) {
       this.stream = stream;
       this.setPlayerToMonitorMode();
