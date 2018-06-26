@@ -4,12 +4,13 @@ import RecordRTC from 'recordrtc/RecordRTC.min';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 enum RecordingState {
-  awaitingPermission,
-  idle,
-  recording,
-  recordingError,
-  permissionRevoked,
-  permissionGranted,
+  awaitingSetupCall = 'Awaiting Setup',
+  awaitingPermission = 'Awaiting Permission',
+  permissionRevoked = 'Permission Revoked',
+  permissionGranted = 'Permission Granted',
+  readyToRecord = 'Ready to Record',
+  recording = 'Recording',
+  recordingError = 'Recording Error',
 }
 
 /**
@@ -61,7 +62,7 @@ export interface RecordingData { url: SafeUrl; blob: Blob; dataUrl: DataUrl; }
 export class RecorderService {
   private stream: MediaStream = null;
   private recorder: RecordRTC;
-  private recordingState = new BehaviorSubject(RecordingState.awaitingPermission);
+  private recordingState = new BehaviorSubject(RecordingState.awaitingSetupCall);
   private recordSettings: RecordSettings;
   private defaultRecordSettings: RecordSettings = originalDefaultSettings;
 
@@ -98,9 +99,12 @@ export class RecorderService {
   }
 
   async setup(recordSettings?: Partial<RecordSettings>): Promise<MediaStream | false> {
+    this.validateCallToSetup();
+    this.recordingState.next(RecordingState.awaitingPermission);
     this.mergeSettings(recordSettings);
     if (await this.setStream()) {
       this.prepRecorder();
+      this.recordingState.next(RecordingState.readyToRecord);
       return this.stream;
     } else {
       return false;
@@ -108,27 +112,14 @@ export class RecorderService {
   }
 
   startRecording(): Promise<RecordingData> {
-    if (this.recordingState.value === RecordingState.permissionRevoked) {
-      return Promise.reject(new Error('Recording permission NOT granted. Cannot start recording.'));
-    }
-    if (this.recordingState.value === RecordingState.awaitingPermission) {
-      if (isDevMode()) {
-        console.warn('The recording was started without first being setup. This could cause a bad user experience. Better to call `setup()` at the first opportunity that makes sense in your ui.');
-      }
-      return new Promise(resolve => {
-        const watch = this.recordingState.subscribe(state => {
-          if (state === RecordingState.idle) {
-            resolve(this.startRecording());
-            watch.unsubscribe();
-          }
-        });
-      });
+    if (this.recordingState.value !== RecordingState.readyToRecord) {
+      return this.recordWhenReadyOrFail();
     }
     return new Promise((resolve, reject) => {
       this.recordingState.next(RecordingState.recording);
       this.recorder.startRecording();
       const watch = this.recordingState.subscribe(state => {
-        if (state === RecordingState.idle) {
+        if (state === RecordingState.readyToRecord) {
           resolve(this.lastSuccessfulRecording);
           watch.unsubscribe();
         } else if (state === RecordingState.recordingError) {
@@ -139,10 +130,30 @@ export class RecorderService {
     });
   }
 
+  private recordWhenReadyOrFail(): Promise<RecordingData> {
+    if (this.recordingState.value === RecordingState.permissionRevoked) {
+      return Promise.reject(new Error('Recording permission NOT granted. Cannot start recording.'));
+    }
+    if (this.recordingState.value === RecordingState.awaitingSetupCall) {
+      if (isDevMode()) {
+        console.warn('The recording was started without first being setup. This could cause a bad user experience. Better to call `setup()` at the first opportunity that makes sense in your ui.');
+      }
+      this.setup();
+    }
+    return new Promise(resolve => {
+      const watch = this.recordingState.subscribe(state => {
+        if (state === RecordingState.readyToRecord) {
+          resolve(this.startRecording());
+          watch.unsubscribe();
+        }
+      });
+    });
+  }
+
   stopRecording(): Promise<RecordingData> {
     return new Promise(resolve => {
       this.recorder.stopRecording((webmUrl: DataUrl) => {
-        this.recordingState.next(RecordingState.idle);
+        this.recordingState.next(RecordingState.readyToRecord);
         this.recorder.getDataURL((dataUrl) => {
           const recordingData = { url: this.sanitizer.bypassSecurityTrustUrl(webmUrl), blob: this.recorder.getBlob(), dataUrl };
           resolve(recordingData);
@@ -178,6 +189,16 @@ export class RecorderService {
 
   private prepRecorder() {
     this.recorder = new RecordRTC(this.stream, this.recordRtcOptions);
+  }
+
+  private validateCallToSetup() {
+    if ([
+      RecordingState.readyToRecord,
+      RecordingState.awaitingSetupCall,
+      RecordingState.permissionRevoked,
+      RecordingState.recordingError,
+    ].indexOf(this.recordingState.value) > -1) { return; }
+    throw new Error(`You cannot setup a recording when the recorderService is in the "${this.recordingState.value}" state.`);
   }
 
   private async setStream(): Promise<boolean> {
