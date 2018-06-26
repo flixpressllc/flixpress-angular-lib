@@ -79,7 +79,7 @@ export class RecorderService {
       mimeType: 'video/webm;codecs=h264',
     };
     const audioOptions: RecordRtcOptions = {
-      recorderType: RecordRTC.StereoAudioRecorder,
+      // recorderType: RecordRTC.StereoAudioRecorder, // For some reason, this shifts the recording pitch (via shortening the time)
       mimeType: 'audio/ogg',
     };
     const specificOptions: RecordRtcOptions = (this.recordSettings.recordVideo) ? videoOptions : audioOptions;
