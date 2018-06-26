@@ -39,7 +39,7 @@ export interface RecordSettings {
   rtcOverrides?: object;
 }
 
-const defaultRecordSettings: RecordSettings = {
+const originalDefaultSettings: RecordSettings = {
   recordVideo: true,
   recordAudio: true,
   videoConstraints: {
@@ -63,6 +63,7 @@ export class RecorderService {
   private recorder: RecordRTC;
   private recordingState = new BehaviorSubject(RecordingState.awaitingPermission);
   private recordSettings: RecordSettings;
+  private defaultRecordSettings: RecordSettings = originalDefaultSettings;
 
   private get recordRtcOptions(): RecordRtcOptions {
     const generalOptions: RecordRtcOptions = {
@@ -93,10 +94,11 @@ export class RecorderService {
     private sanitizer: DomSanitizer,
     @Optional() @Inject(RECORD_SETTINGS) partialRecordSettings: any,
   ) {
-    this.recordSettings = Object.assign({}, defaultRecordSettings, partialRecordSettings);
+    this.updateDefaultSettings(partialRecordSettings);
   }
 
-  async setup(): Promise<MediaStream | false> {
+  async setup(recordSettings?: Partial<RecordSettings>): Promise<MediaStream | false> {
+    this.mergeSettings(recordSettings);
     if (await this.setStream()) {
       this.prepRecorder();
       return this.stream;
@@ -166,8 +168,15 @@ export class RecorderService {
     }
   }
 
+  private mergeSettings(partialRecordSettings: Partial<RecordSettings> = {}) {
+    this.recordSettings = Object.assign({}, this.defaultRecordSettings, partialRecordSettings);
+  }
+
+  private updateDefaultSettings(partialRecordSettings: Partial<RecordSettings>) {
+    this.defaultRecordSettings = Object.assign({}, this.defaultRecordSettings, partialRecordSettings);
+  }
+
   private prepRecorder() {
-    if (this.recordingState.value === RecordingState.idle) { return; }
     this.recorder = new RecordRTC(this.stream, this.recordRtcOptions);
   }
 
