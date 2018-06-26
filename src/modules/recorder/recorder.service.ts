@@ -2,6 +2,7 @@ import { Injectable, isDevMode, Optional, Inject, InjectionToken } from '@angula
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import RecordRTC from 'recordrtc/RecordRTC.min';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { deepEqual } from 'happy-helpers';
 
 enum RecordingState {
   awaitingSetupCall = 'Awaiting Setup',
@@ -101,7 +102,11 @@ export class RecorderService {
   async setup(recordSettings?: Partial<RecordSettings>): Promise<MediaStream | false> {
     this.validateCallToSetup();
     this.recordingState.next(RecordingState.awaitingPermission);
-    this.mergeSettings(recordSettings);
+    const oldSettings = this.recordSettings;
+    const newSettings = this.mergeSettings(recordSettings);
+    if (!deepEqual(oldSettings, newSettings)) {
+      this.killStream();
+    }
     if (await this.setStream()) {
       this.prepRecorder();
       this.recordingState.next(RecordingState.readyToRecord);
@@ -180,7 +185,7 @@ export class RecorderService {
   }
 
   private mergeSettings(partialRecordSettings: Partial<RecordSettings> = {}) {
-    this.recordSettings = Object.assign({}, this.defaultRecordSettings, partialRecordSettings);
+    return this.recordSettings = Object.assign({}, this.defaultRecordSettings, partialRecordSettings);
   }
 
   private updateDefaultSettings(partialRecordSettings: Partial<RecordSettings>) {
