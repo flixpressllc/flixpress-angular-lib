@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, OnDestroy, Input } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnDestroy, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { RecorderService } from '../../recorder.service';
 import { SafeUrl } from '@angular/platform-browser';
 
@@ -7,7 +7,7 @@ import { SafeUrl } from '@angular/platform-browser';
   templateUrl: './video-recording-monitor.component.html',
   styleUrls: ['./video-recording-monitor.component.scss'],
 })
-export class VideoRecordingMonitorComponent implements AfterViewInit, OnDestroy {
+export class VideoRecordingMonitorComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() recordAudio = true;
 
   private stream: MediaStream;
@@ -30,6 +30,15 @@ export class VideoRecordingMonitorComponent implements AfterViewInit, OnDestroy 
     if (stream) {
       this.stream = stream;
       this.setPlayerToMonitorMode();
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    const audioChange = changes.recordAudio;
+    if (audioChange) {
+      if (!audioChange.firstChange && audioChange.previousValue !== audioChange.currentValue) {
+        this.setup();
+      }
     }
   }
 
