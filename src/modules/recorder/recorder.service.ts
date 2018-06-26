@@ -80,7 +80,7 @@ export class RecorderService {
     };
     const audioOptions: RecordRtcOptions = {
       // recorderType: RecordRTC.StereoAudioRecorder, // For some reason, this shifts the recording pitch (via shortening the time)
-      mimeType: 'audio/ogg',
+      mimeType: 'audio/webm',
     };
     const specificOptions: RecordRtcOptions = (this.recordSettings.recordVideo) ? videoOptions : audioOptions;
     return Object.assign(
@@ -180,7 +180,7 @@ export class RecorderService {
     if (this.recordSettings.recordVideo) {
       this.recorder.save('video.webm');
     } else {
-      this.recorder.save('audio.wav');
+      this.recorder.save('audio.webm');
     }
   }
 
