@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "package-recorder": "ng-packagr -p src/modules/recorder/package.json",
+    "package-recorder": "ng-packagr -p src/@flixpress/angular-recorder/package.json",
     "package-simple-components": "ng-packagr -p src/@flixpress/angular-simple-components/package.json",
     "package-requests": "ng-packagr -p src/modules/requests/package.json",
     "package-teleprompter": "ng-packagr -p src/modules/teleprompter/package.json",
@@ -19,10 +19,10 @@
   "watch": {
     "package-recorder": {
       "patterns": [
-        "src/modules/recorder"
+        "src/@flixpress/angular-recorder"
       ],
       "extensions": "ts,html,md,scss",
-      "ignore": "src/modules/recorder/dist"
+      "ignore": "src/@flixpress/angular-recorder/dist"
     },
     "package-requests": {
       "patterns": [
