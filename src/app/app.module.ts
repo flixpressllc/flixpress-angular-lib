@@ -10,7 +10,7 @@ import { UploadFileService } from './services/upload-file.service';
 import { DynamicHostDirective } from './directives/dynamic-host.directive';
 
 import { FlixpressTeleprompterModule} from '../modules/teleprompter';
-import { SimpleComponentsModule } from '../modules/simple-components';
+import { SimpleComponentsModule } from '../@flixpress/angular-simple-components';
 
 import { FileUploadButtonComponent } from './components/file-upload-button/file-upload-button.component';
 import { ImageCropperComponent } from './components/image-cropper/image-cropper.component';

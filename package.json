@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "package-recorder": "ng-packagr -p src/modules/recorder/package.json",
-    "package-simple-components": "ng-packagr -p src/modules/simple-components/package.json",
+    "package-simple-components": "ng-packagr -p src/@flixpress/angular-simple-components/package.json",
     "package-requests": "ng-packagr -p src/modules/requests/package.json",
     "package-teleprompter": "ng-packagr -p src/modules/teleprompter/package.json",
     "package-dumb-services": "ng-packagr -p src/app/dumb-services/package.json",
@@ -40,10 +40,10 @@
     },
     "package-simple-components": {
       "patterns": [
-        "src/modules/simple-components"
+        "src/@flixpress/angular-simple-components"
       ],
       "extensions": "ts,html,md,scss",
-      "ignore": "src/modules/simple-components/dist"
+      "ignore": "src/@flixpress/angular-simple-components/dist"
     },
     "package-dumb-services": {
       "patterns": [
