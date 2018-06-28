@@ -10,10 +10,15 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "package-recorder": "ng-packagr -p src/@flixpress/angular-recorder/package.json",
+    "publish-recorder": "npm publish src/@flixpress/angular-recorder/dist",
     "package-simple-components": "ng-packagr -p src/@flixpress/angular-simple-components/package.json",
+    "publish-simple-components": "npm publish src/@flixpress/angular-simple-components/dist",
     "package-requests": "ng-packagr -p src/@flixpress/angular-requests/package.json",
+    "publish-requests": "npm publish src/@flixpress/angular-requests/dist",
     "package-teleprompter": "ng-packagr -p src/@flixpress/angular-teleprompter/package.json",
+    "publish-teleprompter": "npm publish src/@flixpress/angular-teleprompter/dist",
     "package-simple-services": "ng-packagr -p src/@flixpress/angular-simple-services/package.json",
+    "publish-simple-services": "npm publish src/@flixpress/angular-simple-services/dist",
     "watch": "npm-watch"
   },
   "watch": {
