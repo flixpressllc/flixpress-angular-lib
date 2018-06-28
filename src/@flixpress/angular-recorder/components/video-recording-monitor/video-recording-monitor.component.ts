@@ -11,6 +11,7 @@ export class VideoRecordingMonitorComponent implements AfterViewInit, OnChanges,
   @Input() recordAudio = true;
 
   private stream: MediaStream;
+  private src: string | SafeUrl;
 
   @ViewChild('video') _video;
   get video(): HTMLVideoElement {
@@ -51,9 +52,9 @@ export class VideoRecordingMonitorComponent implements AfterViewInit, OnChanges,
       muted: true,
       controls: false,
       autoplay: true,
-      src: null,
       srcObject: this.stream,
     });
+    this.src = null;
   }
 
   setPlayerToReviewMode(url: string | SafeUrl) {
@@ -62,8 +63,8 @@ export class VideoRecordingMonitorComponent implements AfterViewInit, OnChanges,
       controls: true,
       autoplay: false,
       srcObject: null,
-      src: url,
     });
+    this.src = url;
   }
 
   reset() {
