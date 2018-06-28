@@ -13,7 +13,7 @@
     "package-simple-components": "ng-packagr -p src/@flixpress/angular-simple-components/package.json",
     "package-requests": "ng-packagr -p src/@flixpress/angular-requests/package.json",
     "package-teleprompter": "ng-packagr -p src/@flixpress/angular-teleprompter/package.json",
-    "package-dumb-services": "ng-packagr -p src/app/dumb-services/package.json",
+    "package-simple-services": "ng-packagr -p src/@flixpress/angular-simple-services/package.json",
     "watch": "npm-watch"
   },
   "watch": {
@@ -45,12 +45,12 @@
       "extensions": "ts,html,md,scss",
       "ignore": "src/@flixpress/angular-simple-components/dist"
     },
-    "package-dumb-services": {
+    "package-simple-services": {
       "patterns": [
-        "src/app/dumb-services"
+        "src/@flixpress/angular-simple-services"
       ],
       "extensions": "ts,html,md,scss",
-      "ignore": "src/app/dumb-services/dist"
+      "ignore": "src/@flixpress/angular-simple-services/dist"
     }
   },
   "private": true,
