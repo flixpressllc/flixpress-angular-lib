@@ -9,48 +9,48 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "package-recorder": "ng-packagr -p src/modules/recorder/package.json",
-    "package-simple-components": "ng-packagr -p src/modules/simple-components/package.json",
-    "package-requests": "ng-packagr -p src/modules/requests/package.json",
-    "package-teleprompter": "ng-packagr -p src/modules/teleprompter/package.json",
-    "package-dumb-services": "ng-packagr -p src/app/dumb-services/package.json",
+    "package-recorder": "ng-packagr -p src/@flixpress/angular-recorder/package.json",
+    "package-simple-components": "ng-packagr -p src/@flixpress/angular-simple-components/package.json",
+    "package-requests": "ng-packagr -p src/@flixpress/angular-requests/package.json",
+    "package-teleprompter": "ng-packagr -p src/@flixpress/angular-teleprompter/package.json",
+    "package-simple-services": "ng-packagr -p src/@flixpress/angular-simple-services/package.json",
     "watch": "npm-watch"
   },
   "watch": {
     "package-recorder": {
       "patterns": [
-        "src/modules/recorder"
+        "src/@flixpress/angular-recorder"
       ],
       "extensions": "ts,html,md,scss",
-      "ignore": "src/modules/recorder/dist"
+      "ignore": "src/@flixpress/angular-recorder/dist"
     },
     "package-requests": {
       "patterns": [
-        "src/modules/requests"
+        "src/@flixpress/angular-requests"
       ],
       "extensions": "ts,html,md,scss",
-      "ignore": "src/modules/requests/dist"
+      "ignore": "src/@flixpress/angular-requests/dist"
     },
     "package-teleprompter": {
       "patterns": [
-        "src/modules/teleprompter"
+        "src/@flixpress/angular-teleprompter"
       ],
       "extensions": "ts,html,md,scss",
-      "ignore": "src/modules/teleprompter/dist"
+      "ignore": "src/@flixpress/angular-teleprompter/dist"
     },
     "package-simple-components": {
       "patterns": [
-        "src/modules/simple-components"
+        "src/@flixpress/angular-simple-components"
       ],
       "extensions": "ts,html,md,scss",
-      "ignore": "src/modules/simple-components/dist"
+      "ignore": "src/@flixpress/angular-simple-components/dist"
     },
-    "package-dumb-services": {
+    "package-simple-services": {
       "patterns": [
-        "src/app/dumb-services"
+        "src/@flixpress/angular-simple-services"
       ],
       "extensions": "ts,html,md,scss",
-      "ignore": "src/app/dumb-services/dist"
+      "ignore": "src/@flixpress/angular-simple-services/dist"
     }
   },
   "private": true,
