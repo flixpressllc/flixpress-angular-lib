@@ -15,7 +15,7 @@ import { SimpleComponentsModule } from '../@flixpress/angular-simple-components'
 import { FileUploadButtonComponent } from './components/file-upload-button/file-upload-button.component';
 import { ImageCropperComponent } from './components/image-cropper/image-cropper.component';
 import { ImageUploadButtonComponent } from './components/image-upload-button/image-upload-button.component';
-import { RequestsService } from '../modules/requests';
+import { RequestsService } from '../@flixpress/angular-requests';
 import { LocalStorageService } from './dumb-services/local-storage.service';
 import { TeleprompterRouteComponent } from './routes/teleprompter-route/teleprompter-route.component';
 import { RouteNotFoundComponent } from './routes/route-not-found/route-not-found.component';

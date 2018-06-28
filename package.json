@@ -11,7 +11,7 @@
     "e2e": "ng e2e",
     "package-recorder": "ng-packagr -p src/@flixpress/angular-recorder/package.json",
     "package-simple-components": "ng-packagr -p src/@flixpress/angular-simple-components/package.json",
-    "package-requests": "ng-packagr -p src/modules/requests/package.json",
+    "package-requests": "ng-packagr -p src/@flixpress/angular-requests/package.json",
     "package-teleprompter": "ng-packagr -p src/modules/teleprompter/package.json",
     "package-dumb-services": "ng-packagr -p src/app/dumb-services/package.json",
     "watch": "npm-watch"
@@ -26,10 +26,10 @@
     },
     "package-requests": {
       "patterns": [
-        "src/modules/requests"
+        "src/@flixpress/angular-requests"
       ],
       "extensions": "ts,html,md,scss",
-      "ignore": "src/modules/requests/dist"
+      "ignore": "src/@flixpress/angular-requests/dist"
     },
     "package-teleprompter": {
       "patterns": [
