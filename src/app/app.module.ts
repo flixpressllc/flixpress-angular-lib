@@ -9,7 +9,7 @@ import { UploadFileService } from './services/upload-file.service';
 
 import { DynamicHostDirective } from './directives/dynamic-host.directive';
 
-import { TeleprompterModule} from '../modules/teleprompter';
+import { FlixpressTeleprompterModule} from '../modules/teleprompter';
 import { SimpleComponentsModule } from '../modules/simple-components';
 
 import { FileUploadButtonComponent } from './components/file-upload-button/file-upload-button.component';
@@ -48,7 +48,7 @@ const declarations = [
   DynamicHostDirective,
 ];
 const imports = [
-  TeleprompterModule,
+  FlixpressTeleprompterModule,
   SimpleComponentsModule,
 ];
 const providers = [
