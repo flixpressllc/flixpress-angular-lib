@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "strictNullChecks": true,
+    "noEmitHelpers": true,
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "outDir": "lib",
+    "declaration": true,
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "typeRoots": [
+      "./node_modules/@types"
+    ]
+  },
+  "include": [
+    "./src/index.ts"
+  ],
+  "exclude": [
+    "**/*.spec.*"
+  ]
+}
