@@ -11,9 +11,9 @@ describe('HandleSubscriptions Decorator', () => {
   class TestClass {
     constructor(private something: BehaviorSubject<number>) { }
 
-    ngOnDestroySpy = jasmine.createSpy('ngOnDestroySpy');
+    ngOnDestroySpy = jest.fn();
 
-    doSomething = jasmine.createSpy('doSomething');
+    doSomething = jest.fn();
 
     // tslint:disable-next-line use-life-cycle-interface
     ngOnDestroy() {
@@ -42,7 +42,7 @@ describe('HandleSubscriptions Decorator', () => {
 
   it('should add subscriptions', () => {
     const observable = new BehaviorSubject(5);
-    const spy = spyOn(observable, 'subscribe').and.callThrough();
+    const spy = jest.spyOn(observable, 'subscribe');
 
     instance.addSubscription(observable, () => { });
 
@@ -51,8 +51,8 @@ describe('HandleSubscriptions Decorator', () => {
 
   it('should unsubscribe', () => {
     const observable = new BehaviorSubject(123);
-    const spy2 = jasmine.createSpyObj('subscription', ['unsubscribe']);
-    const spy1 = spyOn(observable, 'subscribe').and.callFake(() => spy2);
+    const spy2 = {unsubscribe: jest.fn()};
+    const spy1 = jest.spyOn(observable, 'subscribe').mockImplementation(() => spy2);
 
     instance = new TestClass(observable);
     instance.example();
