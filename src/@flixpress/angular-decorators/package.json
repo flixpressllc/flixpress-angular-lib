@@ -13,7 +13,7 @@
     "start": "npm run test",
     "test": "jest --watch",
     "pubtest": "jest",
-    "build": "tsc",
+    "build": "tsc -p ./tsconfig.json",
     "prepublishOnly": "npm run pubtest && npm run build"
   },
   "repository": {
