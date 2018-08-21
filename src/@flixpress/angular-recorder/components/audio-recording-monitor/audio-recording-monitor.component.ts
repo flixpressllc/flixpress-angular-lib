@@ -13,7 +13,8 @@ export class AudioRecordingMonitorComponent implements AfterViewInit, OnDestroy 
   @Input() height = 50;
 
   private stream: MediaStream;
-  private isMonitoring = true;
+  private _isMonitoring = true;
+  public get isMonitoring(): boolean { return this._isMonitoring; }
   private reviewUrl: string | SafeUrl = null;
 
   @ViewChild('audio') _audio;
@@ -47,13 +48,13 @@ export class AudioRecordingMonitorComponent implements AfterViewInit, OnDestroy 
   }
 
   setPlayerToMonitorMode() {
-    this.isMonitoring = true;
+    this._isMonitoring = true;
     this.createWaveform(this.stream);
     this.reviewUrl = null;
   }
 
   setPlayerToReviewMode(url: string | SafeUrl) {
-    this.isMonitoring = false;
+    this._isMonitoring = false;
     this.reviewUrl = url;
   }
 

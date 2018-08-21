@@ -7,7 +7,7 @@ export interface IEmittedEvent {
 }
 
 @Component({
-  selector: 'flixpress-sortable-container',
+  selector: 'flixpress-sortable-container', // tslint:disable-line component-selector
   templateUrl: './sortable-container.component.html',
   styleUrls: ['./sortable-container.component.scss'],
 })

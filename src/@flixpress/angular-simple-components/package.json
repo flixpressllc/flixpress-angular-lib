@@ -1,6 +1,6 @@
 {
   "name": "@flixpress/angular-simple-components",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Simple, reusable components without dependencies",
   "main": "index.ts",
   "scripts": {
