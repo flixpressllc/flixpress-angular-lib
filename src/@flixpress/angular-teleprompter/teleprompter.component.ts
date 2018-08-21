@@ -13,7 +13,6 @@ import {
 } from '@angular/core';
 import { PageScrollService, PageScrollInstance, PageScrollOptions} from 'ngx-page-scroll';
 import { DOCUMENT } from '@angular/common';
-import { Subscription } from 'rxjs/Subscription';
 
 export type PrompterState = 'done' | 'prompting' | 'ready' | 'interrupted';
 
@@ -43,7 +42,7 @@ export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChan
   private scrollToBottom: PageScrollInstance = undefined;
 
   private _promptingState: PrompterState = 'ready';
-  private subscriptions: Subscription[] = [];
+  private subscriptions: {unsubscribe}[] = [];
 
   constructor(
     private pageScrollService: PageScrollService,

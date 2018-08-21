@@ -1,6 +1,6 @@
 {
   "name": "@flixpress/angular-teleprompter",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Simple enough teleprompter",
   "main": "index.ts",
   "scripts": {
@@ -17,10 +17,9 @@
   },
   "homepage": "https://github.com/flixpressllc/useful-angular-components#readme",
   "peerDependencies": {
-    "@angular/core": "^5.0.0",
-    "@angular/common": "^5.0.0",
-    "ngx-page-scroll": "^4.0.2",
-    "rxjs": "^5.5.0"
+    "@angular/core": ">= 5.0.0 < 7",
+    "@angular/common": ">= 5.0.0 < 7",
+    "ngx-page-scroll": "^4.0.2"
   },
   "dependencies": {
   },
