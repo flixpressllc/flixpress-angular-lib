@@ -11,7 +11,7 @@ export abstract class ModalBase implements OnDestroy, AfterViewInit, OnChanges {
   @Output() onClose: EventEmitter<any> = new EventEmitter<any>();
 
   private _isOpen: boolean;
-  public get shoudDisplay(): boolean { return this._isOpen; }
+  public get shouldDisplay(): boolean { return this._isOpen; }
   classes: object;
 
   ngAfterViewInit() {
