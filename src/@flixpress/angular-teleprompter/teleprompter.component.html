@@ -2,6 +2,8 @@
 
 <div id="beginning">&nbsp;</div>
 
-<div class="copy">{{ copy }}</div>
+<div #copyEl class="copy">{{ copy }}</div>
 
-<div id="end">// End of content</div>
+<div #end id="end" [ngStyle]="endElStyle">// End of content</div>
+
+<div #oneEm style="height: 1em"></div>

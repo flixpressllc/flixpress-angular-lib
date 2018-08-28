@@ -10,18 +10,33 @@ import {
   OnChanges,
   SimpleChanges,
   HostBinding,
+  AfterViewInit,
+  ViewChild,
 } from '@angular/core';
 import { PageScrollService, PageScrollInstance, PageScrollOptions} from 'ngx-page-scroll';
 import { DOCUMENT } from '@angular/common';
 
 export type PrompterState = 'done' | 'prompting' | 'ready' | 'interrupted';
 
+function distanceAsScaleBetweenTwoPoints(minPoint: number, maxPoint: number, currentPoint: number) {
+  const totalDistance = maxPoint - minPoint;
+  const currentDistance = currentPoint - minPoint;
+  const scale = currentDistance / totalDistance;
+  return scale;
+}
+
+function scaleToPointBetweenTwoPoints(minPoint: number, maxPoint: number, scale: number) {
+  const totalDistance = maxPoint - minPoint;
+  const currentDistance = totalDistance * scale;
+  return currentDistance + minPoint;
+}
+
 @Component({
   selector: 'flix-teleprompter', // tslint:disable-line component-selector
   templateUrl: './teleprompter.component.html',
   styleUrls: ['./teleprompter.component.scss'],
 })
-export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChanges {
+export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit {
   @Input() copy = 'You\'ll want to provide some text here so that you can test scrolling. Do so by passing it in as [copy] to this component. You will also need to pass in [scrollTime] as milliseconds';
   @Input() manualScrollButtonText = 'Start Scrolling';
   @Input() scrollDuration = 8000;
@@ -34,12 +49,22 @@ export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChan
     return this.mirror;
   }
 
+  @ViewChild('copyEl') _copyEl: ElementRef;
+  private get copyEl(): HTMLElement { return this._copyEl.nativeElement; }
+  @ViewChild('end') _endEl: ElementRef;
+  private get endEl(): HTMLElement { return this._endEl.nativeElement; }
+  @ViewChild('oneEm') _oneEm: ElementRef;
+  private get emHeight(): number { return (this._oneEm.nativeElement as HTMLElement).clientHeight; }
+
+  public endElStyle = {'margin-top.em': 1};
+
   private scrollTopListener = new EventEmitter<boolean>(); // This is what pageScrollFinishListener expects, otherwise, we would use RxJs
 
   private scrollBottomListener = new EventEmitter<boolean>(); // This is what pageScrollFinishListener expects, otherwise, we would use RxJs
 
   private scrollToTop: PageScrollInstance = undefined;
   private scrollToBottom: PageScrollInstance = undefined;
+  private get pageScrollOffset(): number { return this.copyEl.offsetTop; }
 
   private _promptingState: PrompterState = 'ready';
   private subscriptions: {unsubscribe}[] = [];
@@ -47,21 +72,22 @@ export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChan
   constructor(
     private pageScrollService: PageScrollService,
     @Inject(DOCUMENT) private document: any,
-    private host: ElementRef,
   ) { }
 
   ngOnInit() {
-    this.calculateHeights();
     this.subscribe();
-    this.jumpToBeginning();
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach(s => s.unsubscribe());
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngAfterViewInit() {
     this.calculateHeights();
+    this.jumpToBeginning();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
   }
 
   get promptingState() {
@@ -87,6 +113,29 @@ export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChan
     );
   }
 
+  calculateEmPadding(distance: number): number {
+    const maxEms = 1;
+    const minEms = 0.1;
+    const slowestSpeedForAdjustmentRange = 0.12;
+    const fastestSpeedForAdjustmentRange = 0.25;
+    const time = this.scrollDuration;
+    let speed = distance / time;
+    speed =
+      Math.max(
+        Math.min(speed, fastestSpeedForAdjustmentRange),
+        slowestSpeedForAdjustmentRange,
+      );
+    const scaleAdjustment =
+      distanceAsScaleBetweenTwoPoints(
+        slowestSpeedForAdjustmentRange,
+        fastestSpeedForAdjustmentRange,
+        speed,
+      );
+    const ems = scaleToPointBetweenTwoPoints(minEms, maxEms, scaleAdjustment);
+    console.log({distance, speed, scaleAdjustment, ems});
+    return ems;
+  }
+
   public beginPrompting() {
     const subscription = this.scrollTopListener.subscribe(() => {
       subscription.unsubscribe();
@@ -98,10 +147,18 @@ export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChan
   }
 
   public scrollToEnd(): void {
+    if (!this.scrollToBottom) {
+      setTimeout(() => this.scrollToEnd(), 100);
+      return;
+    }
     this.pageScrollService.start(this.scrollToBottom);
   }
 
-  public jumpToBeginning() {
+  public jumpToBeginning(): void {
+    if (!this.scrollToTop) {
+      setTimeout(() => this.jumpToBeginning(), 100);
+      return;
+    }
     this.pageScrollService.start(this.scrollToTop);
   }
 
@@ -123,23 +180,28 @@ export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChan
   }
 
   private calculateHeights() {
-    const hostEl = this.host.nativeElement;
-    const endEl = hostEl.querySelector('#end');
-    const copyEl = hostEl.querySelector('.copy');
+    const currentEms = this.endElStyle['margin-top.em'];
+    const appliedOffset = currentEms * this.emHeight;
+    const distanceWithoutPadding = this.endEl.offsetTop - this.copyEl.offsetTop - appliedOffset;
 
-    const viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-    endEl.style.height = viewportHeight + 'px';
+    console.log({distanceWithoutPadding, currentEms, appliedOffset});
+    const newEms = this.calculateEmPadding(distanceWithoutPadding);
 
-    this.createScrollInstances(copyEl.offsetTop);
+    if (newEms === currentEms) {
+      this.createScrollInstances();
+    } else {
+      this.endElStyle['margin-top.em'] = newEms;
+      setTimeout(() => this.createScrollInstances());
+    }
   }
 
-  private createScrollInstances(offset: number) {
+  private createScrollInstances() {
     const scrollDownOptions: PageScrollOptions = {
       document: this.document,
       scrollTarget: '#end',
       pageScrollDuration: this.scrollDuration,
       pageScrollFinishListener: this.scrollBottomListener,
-      pageScrollOffset: offset,
+      pageScrollOffset: this.pageScrollOffset,
     };
 
     const scrollUpOptions: PageScrollOptions = {
@@ -147,7 +209,7 @@ export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChan
       scrollTarget: '#beginning',
       pageScrollDuration: 100, // Durations much shorter than this won't jump properly
       pageScrollFinishListener: this.scrollTopListener,
-      pageScrollOffset: offset,
+      pageScrollOffset: this.pageScrollOffset,
     };
 
     this.scrollToTop = PageScrollInstance.newInstance(scrollUpOptions);
