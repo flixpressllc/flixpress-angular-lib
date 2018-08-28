@@ -38,15 +38,65 @@ function scaleToPointBetweenTwoPoints(minPoint: number, maxPoint: number, scale:
 })
 export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit {
   @Input() copy = 'You\'ll want to provide some text here so that you can test scrolling. Do so by passing it in as [copy] to this component. You will also need to pass in [scrollTime] as milliseconds';
-  @Input() manualScrollButtonText = 'Start Scrolling';
   @Input() scrollDuration = 8000;
-  @Input() maxHeight = undefined;
   @Input() mirror = false;
+  @Input() devMode = false;
   @Output() events = new EventEmitter();
 
   @HostBinding('class.mirror')
   public get isMirrored(): boolean {
     return this.mirror;
+  }
+
+  // tslint:disable member-ordering
+  @HostBinding('class.guides') public get showGuides(): boolean {
+    return this.devMode;
+  }
+  get devTimeStamp(): number { return window.performance.now(); }
+  devTimeAtStart = this.devTimeStamp;
+  devTimeAtEnd = this.devTimeStamp;
+  devWasInterrupted = false;
+  devCurrentTime = '0';
+  devCurrentTimeAdjust(time) {
+    const isTiming = this.devTimeAtEnd === -1;
+    const newTime = isTiming ?
+      time - this.devTimeAtStart
+      : this.devTimeAtEnd - this.devTimeAtStart;
+    this.devCurrentTime = (newTime / 1000).toFixed(3);
+    if (isTiming) window.requestAnimationFrame((t) => this.devCurrentTimeAdjust(t));
+  }
+  devStartTimer() {
+    this.devTimeAtEnd = -1;
+    this.devTimeAtStart = this.devTimeStamp;
+    this.devCurrentTimeAdjust(this.devTimeStamp);
+  }
+  devStopTimer() {
+    this.devTimeAtEnd = this.devTimeStamp;
+  }
+  devSubscriptions: { unsubscribe }[] = [];
+  devModeSubscribe() {
+    this.devSubscriptions.push(
+      this.events.subscribe(state => {
+        switch (state.newValue) {
+          case 'ready':
+            break;
+          case 'prompting':
+            this.devWasInterrupted = false;
+            this.devStartTimer();
+            break;
+          case 'interrupted':
+            this.devWasInterrupted = true;
+          case 'done': // tslint:disable-line
+            this.devStopTimer();
+            break;
+          default:
+            break;
+        }
+      }),
+    );
+  }
+  devModeUnsubscribe() {
+    this.devSubscriptions.forEach(s => s.unsubscribe());
   }
 
   @ViewChild('copyEl') _copyEl: ElementRef;
@@ -69,6 +119,7 @@ export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChan
   private _promptingState: PrompterState = 'ready';
   private subscriptions: {unsubscribe}[] = [];
 
+  // tslint:enable member-ordering
   constructor(
     private pageScrollService: PageScrollService,
     @Inject(DOCUMENT) private document: any,
@@ -80,6 +131,7 @@ export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChan
 
   ngOnDestroy() {
     this.subscriptions.forEach(s => s.unsubscribe());
+    this.devSubscriptions.forEach(s => s.unsubscribe());
   }
 
   ngAfterViewInit() {
@@ -88,6 +140,20 @@ export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChan
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes.devMode) {
+      if (changes.devMode.currentValue) {
+        this.devModeSubscribe();
+      } else {
+        this.devModeUnsubscribe();
+      }
+    }
+    if (
+      (changes.copy && !changes.copy.isFirstChange()) ||
+      (changes.scrollDuration && !changes.scrollDuration.isFirstChange()) ||
+      changes.devMode
+    ) {
+      this.calculateHeights();
+    }
   }
 
   get promptingState() {

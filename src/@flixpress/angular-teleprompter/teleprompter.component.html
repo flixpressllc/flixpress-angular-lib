@@ -1,3 +1,13 @@
+<ng-container *ngIf="devMode">
+  <div [ngStyle]="{'height.px': pageScrollOffset}" id="offset"></div>
+  <div class="info">
+    <div>State: {{ promptingState }}</div>
+    <div>Was Interrupted: {{ devWasInterrupted }}</div>
+    <div>Requested duration: {{ (scrollDuration / 1000).toFixed(3) }}</div>
+    <div>Current duration: {{ devCurrentTime }}</div>
+  </div>
+</ng-container>
+
 <div class="arrow" (click)="takeAction()">&gt;</div>
 
 <div id="beginning">&nbsp;</div>
