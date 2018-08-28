@@ -105,6 +105,9 @@ export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChan
   private get endEl(): HTMLElement { return this._endEl.nativeElement; }
   @ViewChild('oneEm') _oneEm: ElementRef;
   private get emHeight(): number { return (this._oneEm.nativeElement as HTMLElement).clientHeight; }
+  get copyWidth(): number { return this.copyEl.clientWidth; }
+
+  private copyWidthAtLastCalc = 0;
 
   public endElStyle = {'margin-top.em': 1};
 
@@ -202,7 +205,10 @@ export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChan
     return ems;
   }
 
-  public beginPrompting() {
+  public async beginPrompting() {
+    if (this.copyWidthAtLastCalc !== this.copyWidth) {
+      await this.calculateHeights();
+    }
     const subscription = this.scrollTopListener.subscribe(() => {
       subscription.unsubscribe();
       this.promptingState = 'prompting';
@@ -245,7 +251,12 @@ export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChan
     }
   }
 
-  private calculateHeights() {
+  public prepare() {
+    this.calculateHeights();
+  }
+
+  private async calculateHeights(): Promise<any> {
+    this.copyWidthAtLastCalc = this.copyWidth;
     const currentEms = this.endElStyle['margin-top.em'];
     const appliedOffset = currentEms * this.emHeight;
     const distanceWithoutPadding = this.endEl.offsetTop - this.copyEl.offsetTop - appliedOffset;
@@ -254,10 +265,13 @@ export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChan
     const newEms = this.calculateEmPadding(distanceWithoutPadding);
 
     if (newEms === currentEms) {
-      this.createScrollInstances();
+      return this.createScrollInstances();
     } else {
       this.endElStyle['margin-top.em'] = newEms;
-      setTimeout(() => this.createScrollInstances());
+      return new Promise((res) => setTimeout(() => {
+        this.createScrollInstances();
+        res();
+      }));
     }
   }
 
