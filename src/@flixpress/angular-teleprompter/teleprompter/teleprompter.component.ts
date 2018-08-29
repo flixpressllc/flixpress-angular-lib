@@ -12,6 +12,7 @@ import {
   HostBinding,
   AfterViewInit,
   ViewChild,
+  isDevMode,
 } from '@angular/core';
 import { PageScrollService, PageScrollInstance, PageScrollOptions} from 'ngx-page-scroll';
 import { DOCUMENT } from '@angular/common';
@@ -37,7 +38,7 @@ function scaleToPointBetweenTwoPoints(minPoint: number, maxPoint: number, scale:
   styleUrls: ['./teleprompter.component.scss'],
 })
 export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit {
-  @Input() copy = 'You\'ll want to provide some text here so that you can test scrolling. Do so by passing it in as [copy] to this component. You will also need to pass in [scrollTime] as milliseconds';
+  @Input() copy = isDevMode() ? 'You\'ll want to provide some text here so that you can test scrolling. Do so by passing it in as [copy] to this component. You will also need to pass in [scrollTime] as milliseconds' : '';
   @Input() scrollDuration = 8000;
   @Input() mirror = false;
   @Input() devMode = false;
