@@ -3,6 +3,7 @@ import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 
 import { FlixpressTeleprompterComponent } from './teleprompter.component';
 import { PageScrollService } from 'ngx-page-scroll';
+import { CopyContainerComponent } from '../copy-container/copy-container.component';
 
 @Component({
   selector: 'app-host',
@@ -31,6 +32,7 @@ describe('TeleprompterComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         HostComponent,
+        CopyContainerComponent,
         FlixpressTeleprompterComponent,
       ],
       providers: [
@@ -51,9 +53,9 @@ describe('TeleprompterComponent', () => {
     expect(app).toBeTruthy();
   }));
 
-  it('should convert double line breaks to `p` tags', async(() => {
-    host.copy = 'This is a paragraph.\n\nThis is another.';
+  it('should display the copy', async(() => {
+    host.copy = 'This is the copy.';
     fixture.detectChanges();
-  expect(fixture.nativeElement.innerHTML).toContain(/<p>This is a paragraph<\/p>\s*<p>This is another<\/p>/);
+    expect(fixture.nativeElement.textContent).toContain('This is the copy.');
   }));
 });

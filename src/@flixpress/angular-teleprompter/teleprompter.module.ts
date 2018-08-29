@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { FlixpressTeleprompterComponent } from './teleprompter/teleprompter.component';
+import { CopyContainerComponent } from './copy-container/copy-container.component';
 
 export { FlixpressTeleprompterComponent };
 
@@ -12,6 +13,7 @@ export { FlixpressTeleprompterComponent };
   ],
   declarations: [
     FlixpressTeleprompterComponent,
+    CopyContainerComponent,
   ],
   providers: [],
   exports: [

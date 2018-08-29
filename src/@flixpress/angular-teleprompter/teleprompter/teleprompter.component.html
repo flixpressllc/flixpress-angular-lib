@@ -14,7 +14,9 @@
 
 <div id="beginning">&nbsp;</div>
 
-<div #copyEl class="copy">{{ copy }}</div>
+<div #copyEl class="copy">
+  <app-copy-container [copy]="copy"></app-copy-container>
+</div>
 
 <div #end id="end" [ngStyle]="endElStyle">// End of content</div>
 
