@@ -1,7 +1,7 @@
 <button (click)="prompter.beginPrompting()">Start prompting</button>
 
 <flix-teleprompter #prompter
-  copy="This text was passed in from the parent. It should display in place of the informational text that the teleprompter has by default."
+  [copy]="'This text was passed in from the parent.\n\nIt should display in place of the informational text that the teleprompter has by default.'"
   [scrollDuration]="5000"
   [devMode]="true"
 ></flix-teleprompter>
