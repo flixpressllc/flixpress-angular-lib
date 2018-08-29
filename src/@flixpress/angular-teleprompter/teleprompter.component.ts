@@ -55,6 +55,11 @@ export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChan
   get devTimeStamp(): number { return window.performance.now(); }
   devTimeAtStart = this.devTimeStamp;
   devTimeAtEnd = this.devTimeStamp;
+  devSignalStart = 0;
+  devActualStart = 0;
+  get devStartLag(): string {
+    return (this.devActualStart - this.devSignalStart).toFixed(3) + 'ms';
+  }
   devWasInterrupted = false;
   devCurrentTime = '0';
   devCurrentTimeAdjust(time) {
@@ -62,7 +67,7 @@ export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChan
     const newTime = isTiming ?
       time - this.devTimeAtStart
       : this.devTimeAtEnd - this.devTimeAtStart;
-    this.devCurrentTime = (newTime / 1000).toFixed(3);
+    this.devCurrentTime = (newTime / 1000).toFixed(3) + 's';
     if (isTiming) window.requestAnimationFrame((t) => this.devCurrentTimeAdjust(t));
   }
   devStartTimer() {
@@ -206,6 +211,8 @@ export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChan
   }
 
   public async beginPrompting() {
+    this.devSignalStart = this.devTimeStamp;
+    this.devActualStart = -1;
     if (this.copyWidthAtLastCalc !== this.copyWidth) {
       await this.calculateHeights();
     }
@@ -223,6 +230,7 @@ export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChan
       setTimeout(() => this.scrollToEnd(), 100);
       return;
     }
+    this.devActualStart = this.devTimeStamp;
     this.pageScrollService.start(this.scrollToBottom);
   }
 

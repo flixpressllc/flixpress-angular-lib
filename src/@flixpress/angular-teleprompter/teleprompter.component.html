@@ -3,8 +3,9 @@
   <div class="info">
     <div>State: {{ promptingState }}</div>
     <div>Was Interrupted: {{ devWasInterrupted }}</div>
+    <div>Lag Time: {{ devStartLag }}</div>
     <div>Width of text area: {{ copyWidth }}</div>
-    <div>Requested duration: {{ (scrollDuration / 1000).toFixed(3) }}</div>
+    <div>Requested duration: {{ (scrollDuration / 1000).toFixed(3) }}s</div>
     <div>Current duration: {{ devCurrentTime }}</div>
   </div>
 </ng-container>
