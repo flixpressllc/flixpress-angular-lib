@@ -1,32 +1,59 @@
-import { TestBed, async } from '@angular/core/testing';
+import { Component, ViewChild } from '@angular/core';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 
 import { FlixpressTeleprompterComponent } from './teleprompter.component';
+import { PageScrollService } from 'ngx-page-scroll';
 
-xdescribe('TeleprompterComponent', () => {
+@Component({
+  selector: 'app-host',
+  template: `
+    <flix-teleprompter
+      [copy]="copy"
+      [devMode]="devMode"
+      [scrollDuration]="scrollDuration"
+    ></flix-teleprompter>
+  `,
+})
+class HostComponent {
+  copy: string;
+  devMode = false;
+  scrollDuration: number;
+
+  @ViewChild(FlixpressTeleprompterComponent) teleprompter: FlixpressTeleprompterComponent;
+}
+
+describe('TeleprompterComponent', () => {
+  let host: HostComponent;
+  let component: FlixpressTeleprompterComponent;
+  let fixture: ComponentFixture<HostComponent>;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
+        HostComponent,
         FlixpressTeleprompterComponent,
+      ],
+      providers: [
+        PageScrollService,
       ],
     }).compileComponents();
   }));
 
-  it('should create the app', async(() => {
-    const fixture = TestBed.createComponent(FlixpressTeleprompterComponent);
+  beforeEach(() => {
+    fixture = TestBed.createComponent(HostComponent);
+    host = fixture.componentInstance;
+    component = host.teleprompter;
+    fixture.detectChanges();
+  });
+
+  it('should create the component', async(() => {
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   }));
 
-  it(`should have as title 'app'`, async(() => {
-    const fixture = TestBed.createComponent(FlixpressTeleprompterComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('app');
-  }));
-
-  it('should render title in a h1 tag', async(() => {
-    const fixture = TestBed.createComponent(FlixpressTeleprompterComponent);
+  it('should convert double line breaks to `p` tags', async(() => {
+    host.copy = 'This is a paragraph.\n\nThis is another.';
     fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to app!');
+  expect(fixture.nativeElement.innerHTML).toContain(/<p>This is a paragraph<\/p>\s*<p>This is another<\/p>/);
   }));
 });
