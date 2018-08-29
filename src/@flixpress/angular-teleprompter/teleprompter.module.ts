@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
-import { FlixpressTeleprompterComponent } from './teleprompter.component';
+import { FlixpressTeleprompterComponent } from './teleprompter/teleprompter.component';
 
 export { FlixpressTeleprompterComponent };
 
