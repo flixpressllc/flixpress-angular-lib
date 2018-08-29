@@ -1,0 +1,13 @@
+<!-- {{ copy }} -->
+<ng-container *ngFor="let paragraph of paragraphs">
+    <p>
+      <ng-container *ngFor="let line of paragraph; last as isLast;">
+        <ng-container *ngIf="isLast">
+          {{ line }}
+        </ng-container>
+        <ng-container *ngIf="!isLast">
+          {{ line }}<br>
+        </ng-container>
+      </ng-container>
+    </p>
+</ng-container>

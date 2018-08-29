@@ -206,7 +206,7 @@ export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChan
         speed,
       );
     const ems = scaleToPointBetweenTwoPoints(minEms, maxEms, scaleAdjustment);
-    console.log({distance, speed, scaleAdjustment, ems});
+    if (this.devMode) console.log({distance, speed, scaleAdjustment, ems});
     return ems;
   }
 
@@ -265,7 +265,7 @@ export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChan
     const appliedOffset = currentEms * this.emHeight;
     const distanceWithoutPadding = this.endEl.offsetTop - this.copyEl.offsetTop - appliedOffset;
 
-    console.log({distanceWithoutPadding, currentEms, appliedOffset});
+    if (this.devMode) console.log({distanceWithoutPadding, currentEms, appliedOffset});
     const newEms = this.calculateEmPadding(distanceWithoutPadding);
 
     if (newEms === currentEms) {
