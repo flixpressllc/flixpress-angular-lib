@@ -259,10 +259,6 @@ export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChan
     }
   }
 
-  public prepare() {
-    this.calculateHeights();
-  }
-
   private async calculateHeights(): Promise<any> {
     this.copyWidthAtLastCalc = this.copyWidth;
     const currentEms = this.endElStyle['margin-top.em'];
