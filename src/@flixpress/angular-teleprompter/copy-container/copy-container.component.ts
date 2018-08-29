@@ -7,13 +7,14 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 })
 export class CopyContainerComponent implements OnChanges {
   @Input() copy = '';
+  @Input() allCaps = false;
   paragraphs: string[][] = [];
 
   constructor() { }
 
   ngOnChanges(changes: SimpleChanges) {
-    const {copy} = changes;
-    if (copy && copy.currentValue !== copy.previousValue) {
+    const {copy, allCaps} = changes;
+    if ((allCaps && !allCaps.firstChange) || (copy && copy.currentValue !== copy.previousValue)) {
       this.processText();
     }
   }
@@ -21,6 +22,7 @@ export class CopyContainerComponent implements OnChanges {
   processText() {
     let workingCopy = this.copy;
     workingCopy = workingCopy.replace(/\n\n+/g, '\n\n');
+    workingCopy = this.allCaps ? workingCopy.toUpperCase() : workingCopy;
     const workingParagraphs = workingCopy.split('\n\n');
     const workingLines: string[][] = workingParagraphs.map(t => t.split('\n'));
     this.paragraphs = workingLines;

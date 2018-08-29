@@ -8,11 +8,13 @@ import { Component, ViewChild } from '@angular/core';
   template: `
     <app-copy-container
       [copy]="copy"
+      [allCaps]="allCaps"
     ></app-copy-container>
   `,
 })
 class HostComponent {
   copy: string;
+  allCaps = false;
 
   @ViewChild(CopyContainerComponent) copyContainer: CopyContainerComponent;
 }
@@ -72,6 +74,16 @@ describe('TeleprompterComponent', () => {
     fixture.detectChanges();
     const breaks = fixture.nativeElement.querySelectorAll('br');
     expect(breaks.length).toEqual(0);
+  }));
+
+  it('should switch to all caps dynamically', async(() => {
+    host.copy = 'This is a line.';
+    host.allCaps = true;
+    fixture.detectChanges();
+    expect(fixture.nativeElement.textContent).toContain('THIS IS A LINE.');
+    host.allCaps = false;
+    fixture.detectChanges();
+    expect(fixture.nativeElement.textContent).toContain('This is a line.');
   }));
 
   it('should compress line breaks beyond 2', async(() => {

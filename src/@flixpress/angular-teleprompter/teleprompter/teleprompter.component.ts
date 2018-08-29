@@ -41,6 +41,7 @@ export class FlixpressTeleprompterComponent implements OnInit, OnDestroy, OnChan
   @Input() scrollDuration = 8000;
   @Input() mirror = false;
   @Input() devMode = false;
+  @Input() allCaps = false;
   @Output() events = new EventEmitter();
 
   @HostBinding('class.mirror')

@@ -12,6 +12,7 @@ import { CopyContainerComponent } from '../copy-container/copy-container.compone
       [copy]="copy"
       [devMode]="devMode"
       [scrollDuration]="scrollDuration"
+      [allCaps]="allCaps"
     ></flix-teleprompter>
   `,
 })
@@ -19,6 +20,7 @@ class HostComponent {
   copy: string;
   devMode = false;
   scrollDuration: number;
+  allCaps: boolean;
 
   @ViewChild(FlixpressTeleprompterComponent) teleprompter: FlixpressTeleprompterComponent;
 }
@@ -57,5 +59,12 @@ describe('TeleprompterComponent', () => {
     host.copy = 'This is the copy.';
     fixture.detectChanges();
     expect(fixture.nativeElement.textContent).toContain('This is the copy.');
+  }));
+
+  it('switch to all caps on demand', async(() => {
+    host.copy = 'This is the copy.';
+    host.allCaps = true;
+    fixture.detectChanges();
+    expect(fixture.nativeElement.textContent).toContain('THIS IS THE COPY.');
   }));
 });

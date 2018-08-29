@@ -1,6 +1,6 @@
 {
   "name": "@flixpress/angular-teleprompter",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Simple enough teleprompter",
   "main": "index.ts",
   "scripts": {
