@@ -56,4 +56,30 @@ describe('TeleprompterComponent', () => {
     expect(paragraphs[0].textContent).toContain('This is a paragraph.');
     expect(paragraphs[1].textContent).toContain('This is another.');
   }));
+
+  it('should convert single line breaks to `br` tags', async(() => {
+    host.copy = 'This is a line.\nThis is another.';
+    fixture.detectChanges();
+    const paragraphs = fixture.nativeElement.querySelectorAll('p');
+    const breaks = fixture.nativeElement.querySelectorAll('br');
+    expect(paragraphs.length).toEqual(1);
+    expect(breaks.length).toEqual(1);
+    expect(paragraphs[0].textContent.trim()).toMatch(/This is a line\.\s+This is another\./);
+  }));
+
+  it('should not have any `br` tags for single lines', async(() => {
+    host.copy = 'This is a line.';
+    fixture.detectChanges();
+    const breaks = fixture.nativeElement.querySelectorAll('br');
+    expect(breaks.length).toEqual(0);
+  }));
+
+  it('should compress line breaks beyond 2', async(() => {
+    host.copy = 'This is a paragraph.\n\n\n\nThis is another.';
+    fixture.detectChanges();
+    const paragraphs = fixture.nativeElement.querySelectorAll('p');
+    expect(paragraphs.length).toEqual(2);
+    expect(paragraphs[0].textContent).toContain('This is a paragraph.');
+    expect(paragraphs[1].textContent).toContain('This is another.');
+  }));
 });
