@@ -144,21 +144,16 @@ export class RequestsService {
   }
 
   private getAccessToken(): Promise<string> {
-    // tslint:disable-next-line
-    this.accessToken; // Not sure why, but this needs to be called so that it is ready below
+    if (this.accessToken) return Promise.resolve(this.accessToken);
 
     return new Promise((resolve, reject) => {
-      if (!this.accessToken) {
-        if (!this.credentialsString) throw new Error('No credentials were set before requesting token.');
-        this.makeFormApiCall('post', this.apiConfig.tokenEndpoint, this.credentialsString).then((res: AccessTokenResponse) => {
-          resolve(this.accessToken = res.access_token);
-        }, (err) => {
-          this.handleRequestError(err);
-          reject(err);
-        });
-      } else {
-        resolve(this.accessToken);
-      }
+      if (!this.credentialsString) throw new Error('No credentials were set before requesting token.');
+      this.makeFormApiCall('post', this.apiConfig.tokenEndpoint, this.credentialsString).then((res: AccessTokenResponse) => {
+        resolve(this.accessToken = res.access_token);
+      }, (err) => {
+        this.handleRequestError(err);
+        reject(err);
+      });
     });
   }
 
