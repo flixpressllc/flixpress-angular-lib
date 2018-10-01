@@ -60,7 +60,7 @@ type RawApiResult = any;
 export class RequestsService {
 
   private credentialsString: string;
-  private _accessToken: string;
+  private _accessToken: string | null;
   private baseHeaders: HttpHeaders;
   public logLevel: LogLevel = isDevMode() ? LogLevel.Normal : LogLevel.Silent;
 
@@ -83,7 +83,6 @@ export class RequestsService {
     @Optional() @Inject(LocalStorageService) private ls?: ILocalStorageService,
   ) {
     this.setLogLevel(apiConfig.logLevel);
-    this.clearLocalToken();
     this.setBaseHeaders();
   }
 
@@ -91,10 +90,6 @@ export class RequestsService {
     if (level) {
       this.logLevel = level;
     }
-  }
-
-  clearLocalToken() {
-    this._accessToken = null;
   }
 
   setCredentials({username, password}) {
@@ -135,6 +130,7 @@ export class RequestsService {
   private get accessToken(): string | null {
     if (this._accessToken) return this._accessToken;
     this._accessToken = this.getStoredAccessToken();
+    return this._accessToken;
   }
 
   private getStoredAccessToken(): string | null {
