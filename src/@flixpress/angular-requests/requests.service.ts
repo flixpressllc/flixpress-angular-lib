@@ -60,7 +60,7 @@ type RawApiResult = any;
 export class RequestsService {
 
   private credentialsString: string;
-  private _accessToken: string;
+  private _accessToken: string | null;
   private baseHeaders: HttpHeaders;
   public logLevel: LogLevel = isDevMode() ? LogLevel.Normal : LogLevel.Silent;
 
@@ -83,7 +83,6 @@ export class RequestsService {
     @Optional() @Inject(LocalStorageService) private ls?: ILocalStorageService,
   ) {
     this.setLogLevel(apiConfig.logLevel);
-    this.clearLocalToken();
     this.setBaseHeaders();
   }
 
@@ -91,10 +90,6 @@ export class RequestsService {
     if (level) {
       this.logLevel = level;
     }
-  }
-
-  clearLocalToken() {
-    this._accessToken = null;
   }
 
   setCredentials({username, password}) {
@@ -135,6 +130,7 @@ export class RequestsService {
   private get accessToken(): string | null {
     if (this._accessToken) return this._accessToken;
     this._accessToken = this.getStoredAccessToken();
+    return this._accessToken;
   }
 
   private getStoredAccessToken(): string | null {
@@ -143,27 +139,22 @@ export class RequestsService {
     return storedToken === '' ? null : storedToken;
   }
 
-  private getAccessToken(): Promise<string> {
-    // tslint:disable-next-line
-    this.accessToken; // Not sure why, but this needs to be called so that it is ready below
+  private getTokenLocallyOrFromServer(): Promise<string> {
+    if (this.accessToken) return Promise.resolve(this.accessToken);
 
     return new Promise((resolve, reject) => {
-      if (!this.accessToken) {
-        if (!this.credentialsString) throw new Error('No credentials were set before requesting token.');
-        this.makeFormApiCall('post', this.apiConfig.tokenEndpoint, this.credentialsString).then((res: AccessTokenResponse) => {
-          resolve(this.accessToken = res.access_token);
-        }, (err) => {
-          this.handleRequestError(err);
-          reject(err);
-        });
-      } else {
-        resolve(this.accessToken);
-      }
+      if (!this.credentialsString) throw new Error('No credentials were set before requesting token.');
+      this.makeFormApiCall('post', this.apiConfig.tokenEndpoint, this.credentialsString).then((res: AccessTokenResponse) => {
+        resolve(this.accessToken = res.access_token);
+      }, (err) => {
+        this.handleRequestError(err);
+        reject(err);
+      });
     });
   }
 
   private async getAuthorizedRequestOptions () {
-    const accessToken = await this.getAccessToken();
+    const accessToken = await this.getTokenLocallyOrFromServer();
     return {
       headers: this.getBaseHeaders()
         .set('Authorization', `Bearer ${accessToken}`),
