@@ -143,7 +143,7 @@ export class RequestsService {
     return storedToken === '' ? null : storedToken;
   }
 
-  private getAccessToken(): Promise<string> {
+  private getTokenLocallyOrFromServer(): Promise<string> {
     if (this.accessToken) return Promise.resolve(this.accessToken);
 
     return new Promise((resolve, reject) => {
@@ -158,7 +158,7 @@ export class RequestsService {
   }
 
   private async getAuthorizedRequestOptions () {
-    const accessToken = await this.getAccessToken();
+    const accessToken = await this.getTokenLocallyOrFromServer();
     return {
       headers: this.getBaseHeaders()
         .set('Authorization', `Bearer ${accessToken}`),
